@@ -1,0 +1,23 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "useBuiltIns": "usage"
+            }
+        ],
+        "@babel/preset-react"
+    ],
+    "plugins": [
+        "react-hot-loader/babel",
+        [
+            "@babel/plugin-transform-runtime",
+            {
+                "corejs": 2,
+                "helpers": true,
+                "regenerator": true,
+                "useESModules": false
+            }
+        ]
+    ]
+}
