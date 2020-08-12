@@ -1,0 +1,17 @@
+.home {
+    .slide {
+        display:flex;
+        align-items:center;
+        justify-content: center;
+        height: 450px;
+        background: #fff;
+
+        .list {
+            overflow: auto;
+            height: 100%;
+            
+        }
+
+    }
+
+}

@@ -31,9 +31,10 @@ class App extends React.Component {
 }
 
 ReactDOM.render(
-    <React.StrictMode>
+    // <React.StrictMode>
         <App store={store} />
-    </React.StrictMode>,
+    // </React.StrictMode>
+    ,
     document.getElementById('root')
 );
 

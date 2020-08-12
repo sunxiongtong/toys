@@ -51,8 +51,7 @@ const devConfig = {
     },
     plugins: [
         // new webpack.HotModuleReplacementPlugin()
-    ],
-
+    ]
 }
 
 module.exports = merge(commonConfig, devConfig);

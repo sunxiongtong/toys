@@ -2,7 +2,7 @@
 //http://www.dolltoys.cn/#/client/home
 
 let domain = '';
-
+console.log(process.env)
 switch (process.env.env) {
     case 'dev':
         domain = 'http://dolltoys.exfox.com.cn:15000';

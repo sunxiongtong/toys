@@ -1,12 +1,16 @@
 {
   "name": "toys",
+  "sideEffects": [
+    "@babel/polyfill",
+    "*.css"
+  ],
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "bundle": "webpack",
     "watch": "webpack --watch",
-    "start": "cross-env CURRENT_ENV=development webpack-dev-server --env.env=dev --config build/webpack.dev.js",
+    "start": "webpack-dev-server --env.env=dev --config build/webpack.dev.js",
     "dev-build": "webpack --config ./build/webpack.dev.js",
     "prod": "webpack --config ./build/webpack.prod.js"
   },
@@ -14,11 +18,13 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-transform-runtime": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
     "autoprefixer": "^9.8.5",
     "babel-loader": "^8.1.0",
+    "babel-plugin-import": "^1.13.0",
     "clean-webpack-plugin": "^3.0.0",
     "core-js": "^2.6.11",
     "css-loader": "^4.0.0",
@@ -45,8 +51,8 @@
     "axios": "^0.19.2",
     "core-js": "^2.6.11",
     "cross-env": "^7.0.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
