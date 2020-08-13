@@ -18,10 +18,10 @@ class App extends React.Component {
             <Provider store={store}>
                 <div className="App">
                     <Router basename='/'>
-                        <div>
+
                             <Route path='/' component={Home} exact></Route>
                             <Route path='/login' component={Login} exact></Route>
-                        </div>
+           
                     </Router>
                 </div>
             </Provider>

@@ -5,19 +5,21 @@ const { merge } = require('webpack-merge');
 
 const devConfig = {
     mode: 'development',
-    // devtool: 'cheap-module-eval-source-map',
-    // devServer: {
-    //     contentBase: './dist',
-    //     hot: true,
-    //     proxy: {
-    //         '/api': {
-    //             target: 'http://dolltoys.exfox.com.cn:15000',
-    //             // pathRewrite: { '^/api': '' },
-    //             changeOrigin: true,
-    //             // secure: false, // 接受 运行在 https 上的服务
-    //         }
-    //     }
-    // },
+    devtool: 'cheap-module-eval-source-map',
+    devServer: {
+        contentBase: './dist',
+        hot: true,
+        // proxy: {
+        //     '/api': {
+        //         target: 'http://dolltoys.exfox.com.cn:15000',
+        //         // pathRewrite: { '^/api': '' },
+        //         changeOrigin: true,
+        //         // secure: false, // 接受 运行在 https 上的服务
+        //     }
+        // }
+        host:'192.168.20.151',
+        port:8081,
+    },
     module: {
         rules: [
             {

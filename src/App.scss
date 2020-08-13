@@ -1,5 +1,21 @@
-* { touch-action: none; }
-
+// * { touch-action: none; }
+* {
+    margin: 0;
+    padding: 0;
+    
+}
+html,body {
+    height: 100%;
+}
+#root {
+    height: 100%;
+}
+.App {
+    height: 100%;
+}
+body {
+    background-color: rgb(245,245,249);
+}
 ul {
     list-style: none;
 }

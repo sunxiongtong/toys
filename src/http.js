@@ -15,6 +15,7 @@ let https = {
     },
     post(url, params, json) {
         let headers = {};
+        console.log(url)
         //     data;
         // headers['Content-type'] = json ? 'application/json;charset=UTF-8' : 'application/x-www-form-urlencoded;charset=UTF-8';
         // data = json ? params : QS.stringify(params);

@@ -1,17 +1,97 @@
+@mixin text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .home {
-    .slide {
-        display:flex;
-        align-items:center;
-        justify-content: center;
-        height: 450px;
-        background: #fff;
-
-        .list {
-            overflow: auto;
-            height: 100%;
-            
-        }
-
+    height: 90%;
+    overflow: auto;
+    .am-search-input .am-search-synthetic-ph {
+        font-size: 0;
     }
+    .tab-wrap {
+        height: calc(100%);
+    } 
+    .slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background: #fff;
+        
+        .list {
+            overflow: scroll;
+            height: 100%;
+            width: 100%;
+            background-color: rgb(245, 245, 249);
+            padding: 0.2rem;
 
+            li {
+                display: flex;
+                justify-content: space-between;
+                background-color: #fff;
+                height: 2.5rem;
+                border-radius: 0.2rem;
+                padding: 0.2rem;
+                margin-bottom: 0.2rem;
+                .shop-img-wrap {
+                    width: 2.3rem;
+                    flex-shrink: 0;
+                    margin-right: 0.3rem;
+
+                    .shop-img {
+                        height: 100%;
+                        width: 100%;
+                        border-radius: 0.15rem;
+                    }
+                }
+                .shop-content-wrap {
+                    width: 100%;
+                    overflow: hidden;
+                    display: flex;
+                    justify-content: space-between;
+                    flex-direction: column;
+                    .shop-name {
+                        font-size: 0.26rem;
+                        font-weight: bold;
+                        line-height: 0.4rem;
+                        width: 100%;
+                        @include text-ellipsis;
+                    }
+                }
+                .shop-content {
+                    font-size: .2rem;
+                    height: .5rem;
+                    margin-top: .2rem;
+                    .tag {
+                        padding: .1rem .2rem;
+                        background: pink;
+                        font-size: .2rem;
+                        display: inline-block;
+                        margin-right: .1rem;
+                        color: #fff;
+                        background-color: rgba(237,27,36,.6);
+                    }
+                    .recommend {
+                        background-color: rgba(237,27,36,.6);
+                    }
+                    .shangxin {
+                        background-color: rgba(141,197,62,.6);
+                    }
+                    .copyright {
+                        background-color: rgba(10,178,207,.6);
+                    }
+                    .all {
+                        background-color: rgba(241,102,37,.6);
+                    }
+                }
+                .hot-wrap {
+                    font-size: .22rem;
+                    margin-bottom: .1rem;
+                }
+                
+            }
+        }
+    }
 }
