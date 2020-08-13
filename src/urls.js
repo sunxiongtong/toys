@@ -14,7 +14,11 @@ const shop = {
     getListByTag: `${domain}/api/product/getListByTag`,
     getConfigClassify:`${domain}/api/config/getConfig`,
 }
+const banner = {
+    getBanner:`${domain}/api/banner/getList`
+}
 
 export {
-    shop
+    shop,
+    banner
 }

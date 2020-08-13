@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as userInfoActionsFromOtherFile from '../../actions/userinfo.js'
 import http from '@/http.js';
-import { shop } from '@/urls.js'
+import { shop, banner } from '@/urls.js'
 import { Button, SearchBar, Tabs, Badge, Toast } from 'antd-mobile';
 import './index.scss'
 import SearchList from '@/components/SearchList/index';
@@ -22,7 +22,7 @@ class Home extends React.Component {
         super(props);
 
         this.state = {
-            
+            bannerList: []
         }
 
         this.pageSize = 5;
@@ -55,7 +55,7 @@ class Home extends React.Component {
                 return {
                     [`records${type}`]: [...preState[`records${type}`], ...list]
                 }
-            },()=>{
+            }, () => {
                 // console.log(this.state)
             });
 
@@ -70,59 +70,42 @@ class Home extends React.Component {
     handleScroll(e) {
         const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
         const type = e.currentTarget.dataset.type;
-        e.stopPropagation();
-        // console.log(scrollHeight,scrollTop,scrollHeight-scrollTop,clientHeight)
-        //滑动到底部调接口
-        if (scrollHeight - scrollTop <= clientHeight) {
-            this.getRecord(type);
+
+        // 滚动触发频率太高，设置节流
+        if (this.timeout) {
+            clearTimeout(this.timeout);
         }
+
+
+        this.timeout = setTimeout(() => {
+            // console.log(scrollHeight, scrollTop, scrollHeight - scrollTop, clientHeight)
+            //滑动到底部调接口 某些浏览器可能设置缩放 导致像素不是整数 + 1 防止这些误差
+            if (scrollHeight - scrollTop <= clientHeight + 1) {
+                this.getRecord(type);
+            }
+            clearTimeout(this.timeout);
+
+        }, 50)
+
     }
 
     handleTabChange(index) {
-        
-        if (this.state[`records${index+1}`].length > 0) {
+
+        if (this.state[`records${index + 1}`].length > 0) {
             return;
         }
 
-        this.getRecord(index+1);
+        this.getRecord(index + 1);
     }
 
-    render() {
-        const { configType = [] } = this.state;
-
-        return <div className="home">
-            <div onClick={()=>{this.props.history.push('/login')}}>
-                <SearchBar placeholder="搜索商品" maxLength={8} disabled	/>
-            </div>
-            <Banner></Banner>
-            <div className='tab-wrap'>
-                <Tabs tabs={tabs}
-                    initialPage={0}
-                    onChange={(tab, index) => { this.handleTabChange(index); }}
-                >
-                    {
-                        configType.length > 0 && configType.map((config)=>{
-                            return (
-                                <div className="slide" key={config.name+config.text}>
-                                    <SearchList records={this.state[`records${config.name}`]} type={config.name} scrollEvent={this.handleScroll.bind(this)}></SearchList>
-                                </div>
-                            )
-                        })
-                    }
-                </Tabs>
-            </div>
-        </div>
-    }
-
-    componentDidMount() {
-        this.props.userInfoActions({ title: '123456' })
-
+    init() {
+        // 初始化分类
         http.post(shop.getConfigClassify, { name: 'tags', oToken: '' }).then((res) => {
             const { data } = res;
             const value = JSON.parse(data.value);
 
             this.setState({
-                configType:value
+                configType: value
             })
 
             value.forEach((typeObj) => {
@@ -139,7 +122,50 @@ class Home extends React.Component {
             this.getRecord(1);
         })
 
-        
+        //初始化轮播图
+        http.post(banner.getBanner, { oTken: '', xtype: 2, status: 3, pagesize: 10, pageindex: 1 }).then((res) => {
+            const { data } = res;
+            const { list } = data;
+
+            this.setState({
+                bannerList: list
+            })
+        })
+    }
+
+    render() {
+        const { configType = [], bannerList = [] } = this.state;
+
+        return (
+            <div className="home">
+                <div onClick={() => { this.props.history.push('/login') }}>
+                    <SearchBar placeholder="搜索商品" maxLength={8} disabled />
+                </div>
+                <Banner list={bannerList}></Banner>
+                <div className='tab-wrap'>
+                    <Tabs tabs={tabs}
+                        initialPage={0}
+                        onChange={(tab, index) => { this.handleTabChange(index); }}
+                    >
+                        {
+                            configType.length > 0 && configType.map((config) => {
+                                return (
+                                    <div className="slide" key={config.name + config.text}>
+                                        <SearchList records={this.state[`records${config.name}`]} type={config.name} scrollEvent={this.handleScroll.bind(this)}></SearchList>
+                                    </div>
+                                )
+                            })
+                        }
+                    </Tabs>
+                </div>
+            </div>
+        )
+    }
+
+    componentDidMount() {
+        this.props.userInfoActions({ title: '123456' })
+
+        this.init();
 
     }
 

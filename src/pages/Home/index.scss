@@ -5,8 +5,12 @@
 }
 
 .home {
-    height: 90%;
+    height: 100%;
     overflow: auto;
+    .am-tabs-pane-wrap {
+        height: calc(100% - 43.5px)!important;
+    }
+   
     .am-search-input .am-search-synthetic-ph {
         font-size: 0;
     }
