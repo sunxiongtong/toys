@@ -1,0 +1,42 @@
+.navwrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+}
+
+.navbody {
+    height: calc(100% - 50px - 45px);
+    position: absolute;
+    top: 45px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.brand-wrap {
+    position: relative;
+    height: 100%;
+}
+
+.brand-content {
+    padding: 0.2rem;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    div {
+        width: 46%;
+        margin-bottom: 0.15rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        img {
+            width: 100%;
+            border-radius: 0.2rem;
+            display: block;
+        }
+    }
+}

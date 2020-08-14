@@ -13,12 +13,22 @@ switch (process.env.env) {
 const shop = {
     getListByTag: `${domain}/api/product/getListByTag`,
     getConfigClassify:`${domain}/api/config/getConfig`,
+    getFileLoad:`${domain}/api/product/fileLoad`,
+    getLoad:`${domain}/api/product/load`,
+    getSkuLoad:`${domain}/api/product/skuLoad`,
+    getLoadInfo:`${domain}/api/saler/loadInfo`,
 }
 const banner = {
-    getBanner:`${domain}/api/banner/getList`
+    getBanner:`${domain}/api/banner/getList`,
+    // getBrand:`${domain}/api/banner/getList`
 }
 
+const user = {
+    login:`${domain}/api/user/login`,
+    register:`${domain}/api/user/reg`
+}
 export {
     shop,
-    banner
+    banner,
+    user
 }

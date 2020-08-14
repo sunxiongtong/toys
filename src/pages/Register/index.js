@@ -7,17 +7,17 @@ import './index.scss';
 import http from '@/http.js';
 import { user } from '@/urls.js';
 
-function setCookie(name, value) { 
-    var exp = new Date(); 
-    exp.setTime(exp.getTime() + 60 * 60 * 1000); 
-    document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString() + ";path=/"; 
-}
+class Register extends React.Component {
+    constructor(props){
+        super(props);
 
-class Login extends React.Component {
-    login(){
-        
+
+    }
+
+    register(e){
         let phone = this.phone.state.value;
         let pwd = this.pwd.state.value;
+        let name = this.nickname.state.value;
 
         if(!phone){
             Toast.info('请输入手机号',3);
@@ -28,36 +28,45 @@ class Login extends React.Component {
             Toast.info("手机号码有误，请重填",3);  
             return ; 
         } 
-        
+
         if(!pwd){
             Toast.info('请输入密码',3);
             return;
         }   
 
-        if(phone && pwd){
-            http.post(user.login,{cellphone:phone,password:pwd,name:'',oToken:''}).then((res)=>{
-                const {data,message,status} = res;
-                if(status === 'ERROR'){
-                    Toast.info(message,3);
-                }else{
-                    this.props.userInfoActions({ token: data.token })
-                    Toast.info('登录成功',1,()=>{
-                        setCookie('token',data.token)
-                        this.props.history.push('/');
-                    }); 
-                }
-            })
-        }
+        if(!name){
+            Toast.info('请输入昵称',3);
+            return;
+        }        
+
+        http.post(user.register,{cellphone:phone,password:pwd,name,oToken:''}).then((res)=>{
+            if(status === 'ERROR'){
+                Toast.info(message,3);
+            }else{
+               
+                Toast.info('注册成功',3,()=>{
+                    this.props.history.push('/login');
+                }); 
+            }
+        })
     }
 
     render() {
         return <div>
+
             <div className="navwrap">
-                <NavBar title='登录' showIcon={true}></NavBar>
+                <NavBar title='注册' showIcon={true}></NavBar>
             </div>
-            <div className="navbody" style={{ background: '#fff',height:'calc(100% - 50px)'}}>
-                <div className="login-body">
+            <div className="navbody" style={{ background: '#fff', height: 'calc(100% - 50px)' }}>
+                <div className="register-body">
                     <List>
+                        <InputItem
+                            clear
+                            placeholder="请输入昵称"
+                            ref={el => this.nickname = el}
+                        >
+                            昵称
+                        </InputItem>
                         <InputItem
                             clear
                             placeholder="请输入手机号"
@@ -71,29 +80,16 @@ class Login extends React.Component {
                             type="password"
                             ref={el => this.pwd = el}
                         >密码</InputItem>
-                        
+
                     </List>
                     <div className="login-btn">
-                        <Button type="primary" onClick={this.login.bind(this)}>登录</Button>
+                        <Button type="primary" onClick={this.register.bind(this)}>立即注册</Button>
                     </div>
-                    <div className="register" onClick={()=>{this.props.history.push('/register');}}>
-                        立即注册
-                    </div>
+                    
                 </div>
             </div>
         </div>
     }
-
-    componentDidMount(){
-
-    }
 }
 
-export default connect(
-    state => ({
-        
-    }),
-    {
-        userInfoActions: userInfoActionsFromOtherFile.updateToken
-    }
-)(Login)
+export default Register

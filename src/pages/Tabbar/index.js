@@ -5,6 +5,7 @@ import home from '@/assets/home.svg';
 import homeActive from '@/assets/homeActive.svg';
 import star from '@/assets/star.svg';
 import starActive from '@/assets/starActive.svg';
+import { withRouter } from "react-router-dom";
 
 class MyTabBar extends React.Component {
     constructor(props) {
@@ -45,9 +46,48 @@ class MyTabBar extends React.Component {
         );
     }
 
+    change() {
+        // console.log(this.props.history)
+        this.props.history.listen((location) => {
+            this.handleInit(location);
+        })
+
+    }
+
+    handleInit(location){
+        let pathname = location.pathname;
+        let tag = '';
+        switch (pathname) {
+            case '/':
+                tag = 'home';
+                break;
+            case '/brand':
+                tag = 'brand';
+                break;
+            case '/star':
+                tag = 'star';
+                break;
+            case '/my':
+                tag = 'my';
+                break;
+            default:
+                tag = '';
+        }
+        console.log(tag)
+        if(tag){
+            this.setState({
+                selectedTab: tag,
+                hidden:false
+            })
+        }else{
+            this.setState({
+                hidden: true
+            })
+        }
+    }
     render() {
         return (
-            <div style={this.state.fullScreen ? { position: 'fixed', height: '10vh', width: '100%', bottom: 0 } : { height: 50 }}>
+            <div style={this.state.fullScreen ? { position: 'fixed', height: '50px', width: '100%', bottom: -1 } : { height: 50 }}>
                 <TabBar
                     unselectedTintColor="#949494"
                     tintColor="#33A3F4"
@@ -75,13 +115,13 @@ class MyTabBar extends React.Component {
                         onPress={() => {
                             this.setState({
                                 selectedTab: 'home',
-                            },()=>{
-                                this.history.push('/');
+                            }, () => {
+                                this.props.history.push('/');
                             });
                         }}
                         data-seed="logId"
                     >
-                   
+
                     </TabBar.Item>
                     <TabBar.Item
                         icon={
@@ -106,13 +146,13 @@ class MyTabBar extends React.Component {
                         onPress={() => {
                             this.setState({
                                 selectedTab: 'brand',
-                            },()=>{
-                                this.history.push('/brand');
+                            }, () => {
+                                this.props.history.push('/brand');
                             });
                         }}
                         data-seed="logId1"
                     >
-                        
+
                     </TabBar.Item>
                     <TabBar.Item
                         icon={
@@ -137,12 +177,12 @@ class MyTabBar extends React.Component {
                         onPress={() => {
                             this.setState({
                                 selectedTab: 'star',
-                            },()=>{
-                                this.history.push('/star');
+                            }, () => {
+                                this.props.history.push('/star');
                             });
                         }}
                     >
-                       
+
                     </TabBar.Item>
                     <TabBar.Item
                         icon={{ uri: 'https://zos.alipayobjects.com/rmsportal/psUFoAMjkCcjqtUCNPxB.svg' }}
@@ -154,13 +194,13 @@ class MyTabBar extends React.Component {
 
                             this.setState({
                                 selectedTab: 'my'
-                            },()=>{
-                                this.history.push('/login');
+                            }, () => {
+                                this.props.history.push('/my');
                             })
-                            
+
                         }}
                     >
-                      
+
                     </TabBar.Item>
                 </TabBar>
             </div>
@@ -168,8 +208,10 @@ class MyTabBar extends React.Component {
     }
 
     componentDidMount() {
-        this.history = this.props.history.current.history;
+        this.change();
+        this.handleInit(this.props.history.location);
     }
+
 }
 
-export default MyTabBar;
+export default withRouter(MyTabBar);

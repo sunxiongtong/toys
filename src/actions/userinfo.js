@@ -7,7 +7,7 @@ export const login= (data)=>{
     }
 }
 
-export const updateTitle = (data)=>{
+export const updateToken = (data)=>{
     return {
         type:actionsTypes.USERINFO_UPDATE,
         data

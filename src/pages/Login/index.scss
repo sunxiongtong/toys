@@ -1,0 +1,36 @@
+.login-body {
+    padding:1rem .5rem;
+    
+     .am-input-item .am-list-line{
+        border-bottom: 1px solid #ddd!important;
+    }
+    .am-list-item .am-input-label.am-input-label-5 {
+        text-indent: 10px;
+        color: #333;
+        font-size: .34rem;
+    }
+    input {
+        font-size: .34rem!important;
+    }
+    .am-list-body::before {
+        background-color:#fff!important;
+    }
+    .login-btn {
+        width: 100%;
+        margin: .5rem auto;
+        
+        a {
+            height: .8rem;
+            border-radius: .8rem!important;
+            line-height: .8rem;
+        }
+    }
+    .register {
+        margin:.2rem auto;
+        font-size: .34rem;
+        color: #108ee9;
+        width: 100%;
+        font-weight: bold;
+        text-align: center;
+    }
+}

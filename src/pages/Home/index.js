@@ -1,9 +1,8 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as userInfoActionsFromOtherFile from '../../actions/userinfo.js'
+import * as userInfoActionsFromOtherFile from '../../actions/userinfo.js';
 import http from '@/http.js';
-import { shop, banner } from '@/urls.js'
+import { shop, banner } from '@/urls.js';
 import { Button, SearchBar, Tabs, Badge, Toast } from 'antd-mobile';
 import './index.scss'
 import SearchList from '@/components/SearchList/index';
@@ -36,7 +35,7 @@ class Home extends React.Component {
         if (pageObj.totalPages && pageObj.page > pageObj.totalPages) return;
 
         let params = {
-            oToken: '',
+            oToken: this.props.token,
             tag,
             pageindex: pageObj.page,
             pagesize: this.pageSize,
@@ -100,7 +99,7 @@ class Home extends React.Component {
 
     init() {
         // 初始化分类
-        http.post(shop.getConfigClassify, { name: 'tags', oToken: '' }).then((res) => {
+        http.post(shop.getConfigClassify, { name: 'tags', oToken: this.props.token }).then((res) => {
             const { data } = res;
             const value = JSON.parse(data.value);
 
@@ -123,7 +122,7 @@ class Home extends React.Component {
         })
 
         //初始化轮播图
-        http.post(banner.getBanner, { oTken: '', xtype: 2, status: 3, pagesize: 10, pageindex: 1 }).then((res) => {
+        http.post(banner.getBanner, { oToken: this.props.token, xtype: 2, status: 3, pagesize: 10, pageindex: 1 }).then((res) => {
             const { data } = res;
             const { list } = data;
 
@@ -163,19 +162,20 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
-        this.props.userInfoActions({ title: '123456' })
+        // this.props.userInfoActions({ token: '123456' })
 
         this.init();
-
+        console.log(this.props)
     }
 
 }
 
 export default connect(
     state => ({
-        title: state.userinfo.title
+        token: state.userinfo.token,
+        // brandList:state.brand.brandList
     }),
     {
-        userInfoActions: userInfoActionsFromOtherFile.updateTitle
+        userInfoActions: userInfoActionsFromOtherFile.updateToken
     }
 )(Home)

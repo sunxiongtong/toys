@@ -1,21 +1,41 @@
 import { ListView } from 'antd-mobile';
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import { withRouter } from "react-router-dom";
+import http from '@/http.js';
+import { shop, banner } from '@/urls.js';
+import { connect } from 'react-redux';
 class SearchList extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
+  handleClick = (e) => {
+    const {token} = this.props;
+    
+    if(!token){
+      this.props.history.push('./login')
+      return ;
+    }
+    const {productid,salerid} = e.currentTarget.dataset;
+
+    this.props.history.push(`/detail?productid=${productid}&salerid=${salerid}`);
+ 
+  }
+
   render() {
-    const { records=[],scrollEvent,type} = this.props;
+    const { records = [], scrollEvent, type } = this.props;
 
     return (
       <ul className="list" data-type={type} onScroll={scrollEvent}>
         {
-          records.map((item,index) => {
+          records.map((item, index) => {
             return (
-              <li key={item.productid + item.code+item.name+item.hot+index}>
+              <li
+                key={item.productid + item.code + item.name + item.hot + index}
+                data-productid={item.productid}
+                data-salerid={item.salerid}
+                onClick={this.handleClick.bind(this)}>
                 <div className="shop-img-wrap">
                   <img src={item.image} className="shop-img"></img>
                 </div>
@@ -34,7 +54,7 @@ class SearchList extends React.Component {
                         } else {
                           className = 'tag all';
                         }
-                        return <span key={item.productid + tag+item.name} className={className}>{tag.substr(0, 2)}</span>
+                        return <span key={item.productid + tag + item.name} className={className}>{tag.substr(0, 2)}</span>
                       })
                     }
                   </div>
@@ -51,4 +71,11 @@ class SearchList extends React.Component {
     )
   }
 }
-export default SearchList;
+export default withRouter(connect(
+    state => ({
+        token: state.userinfo.token,
+    }),
+    {
+        // userInfoActions: userInfoActionsFromOtherFile.updateToken
+    }
+)(SearchList));

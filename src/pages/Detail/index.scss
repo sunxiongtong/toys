@@ -1,0 +1,36 @@
+.detail-wrap {
+    .content-wrap {
+        .title {
+            font-weight: bold;
+            font-size: .4rem;
+            text-align: center;
+            padding: .1rem;
+        }
+    }
+    .detail-content {
+        font-size: .34rem;
+        span {
+            display: inline-block;
+        }
+        .left {
+            width: 30%;
+            text-align: right;
+        }
+        .right {
+            width: 50%;
+            text-align: left;
+            word-break: break-all;
+        }
+        .line {
+            margin: .2rem;
+            display: flex;
+            justify-content: space-between;
+            color: #555;
+        }
+    }
+    .shop-top {
+        text-align: center;
+        margin-bottom: .2rem;
+    }
+}
+
