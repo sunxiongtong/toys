@@ -1,0 +1,19 @@
+.user-wrap {
+    position: relative;
+    height: 100%;
+    .content {
+        box-sizing: border-box;
+        padding-top: .2rem;
+        background: #fff;
+        height: calc(100% - 45px);
+        position: absolute;
+        top: 45px;
+        width: 100%;
+        overflow: auto;
+        font-size: .3rem;
+        p {
+            padding: .2rem;
+            text-indent: .4rem;
+        }
+    }
+}

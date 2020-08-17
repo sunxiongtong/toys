@@ -12,15 +12,24 @@ class Detail extends React.Component {
 
         this.state = {
             imageList: [],
-            productObj: {}
+            productObj: {},
+            star:false,
+            productID:''
         }
     }
+
+    changeStar(){
+        this.setState({
+            star:!this.state.star
+        })
+    }
+
     render() {
-        const { imageList = [], productObj = {} } = this.state;
-        console.log(productObj)
+        const { imageList = [], productObj = {},star=false,productID } = this.state;
+
         return <div className="detail-wrap">
             <div className="navwrap">
-                <NavBar title='商品详情' showIcon={true}></NavBar>
+                <NavBar title='商品详情' showIcon={true} star={star} changeStar={this.changeStar.bind(this)} showRight={true} productID={productID}></NavBar>
             </div>
             <div className="navbody detail-content" style={{ height: 'calc(100% - 45px)', background: '#fff' }}>
                 <div className="Specifications content-wrap">
@@ -151,6 +160,10 @@ class Detail extends React.Component {
         }
         let paramsObj = { id: params['productid'], salerid: params['salerid'], oToken: this.props.token };
 
+        this.setState({
+            productID:params['productid']
+        });
+
         http.post(shop.getFileLoad, paramsObj).then((res) => {
             const { data } = res;
 
@@ -160,6 +173,7 @@ class Detail extends React.Component {
         })
 
         let obj = {};
+
         http.post(shop.getLoad, paramsObj).then(res => {
             const { data } = res;
 
@@ -167,7 +181,16 @@ class Detail extends React.Component {
                 return { productObj: { ...preState.productObj, ...data } }
             })
         })
+        
+        http.post(shop.isFocus,{productid:params['productid'],oToken:this.props.token}).then((res)=>{
+            const { data } = res;
 
+            if(data !== null){
+                this.setState({
+                    star:true
+                })
+            }
+        })
         http.post(shop.getSkuLoad, paramsObj).then(res => {
             const { data } = res;
 

@@ -23,8 +23,8 @@ class Banner extends React.Component {
         <Carousel
           autoplay={false}
           infinite
-          beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-          afterChange={index => console.log('slide to', index)}
+          beforeChange={(from, to) => {}}
+          afterChange={index => {}}
         >
           {list.map(banner => (
             <a

@@ -1,0 +1,44 @@
+.searchpage {
+    height: 100%;
+    .list-wrap {
+        width: 100%;
+        position: relative;
+        height: calc(100% - 45px);
+    }
+    .input-wrap {
+        background-color:#efeff4;
+        height: .88rem;
+        box-sizing: border-box;
+        padding: .16rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        input {
+            height: .56rem;
+            width: 79%;
+            border: none;
+            outline: none;
+            display: inline-block;
+            vertical-align: top;
+            font-size: .34rem;
+            text-indent: .4rem;
+        }
+        span {
+            margin-left: 4%;
+            display: inline-block;
+            vertical-align: top;
+            width: 16%;
+            height: .56rem;
+            line-height: .56rem;
+            font-size: .34rem;
+            text-align: center;
+            color:#108ee9;
+        }
+    }
+    .list {
+        height: calc(100% - .88rem);
+        position: absolute;
+        top: .88rem;
+    }
+}

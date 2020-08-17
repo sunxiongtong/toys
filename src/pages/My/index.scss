@@ -1,0 +1,34 @@
+.my-wrap {
+    .banner {
+        width: 100%;
+        position: relative;
+        img {
+            width:100%;
+            display: block;
+        }
+        div {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 1rem;
+            text-align: center;
+            line-height: 1rem;
+            transform: translateY(-.5rem);
+            font-size: .4rem;
+            color: #fff;
+        }
+    }
+    .login-btn {
+        width: 70%;
+        text-align: center;
+        color: #fff;
+        background: rgb(51, 163, 244);
+        font-size:.36rem;
+        height: .8rem;
+        line-height: .8rem;
+        border-radius: .4rem;
+        margin: .5rem auto;
+    }
+}

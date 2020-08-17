@@ -73,7 +73,7 @@ class MyTabBar extends React.Component {
             default:
                 tag = '';
         }
-        console.log(tag)
+        
         if(tag){
             this.setState({
                 selectedTab: tag,

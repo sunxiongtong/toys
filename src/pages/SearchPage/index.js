@@ -1,57 +1,51 @@
-import React from 'react';
+import React from 'react' ;
 import SearchList from '@/components/SearchList/index';
 import http from '@/http.js';
 import { connect } from 'react-redux';
 import { shop, banner } from '@/urls.js';
 import NavBar from '@/components/NavBar';
 import './index.scss';
-import { Toast } from 'antd-mobile';
-class BrandList extends React.Component {
-    constructor(props) {
+import { Button, SearchBar, Tabs, Badge, Toast } from 'antd-mobile';
+
+class SearchPage extends React.Component {
+    constructor(props){
         super(props);
 
         this.state = {
-            records: []
+            records:[]
         };
 
-        this.pageSize = 21;
+        this.pageSize = 100;
         this.pageObj = {
-            page: 1,
-            totalPages: undefined
+            page:1,
+            totalPages:undefined
         }
     }
 
-    getRecord() {
+    getRecord(key){
         let pageObj = this.pageObj || {};
-        if (pageObj.totalPages && pageObj.page > pageObj.totalPages) return;
+        // if (pageObj.totalPages && pageObj.page > pageObj.totalPages) return;
 
         let params = {
             oToken: this.props.token,
+            key,
             pageindex: pageObj.page,
             pagesize: this.pageSize,
         }
 
-        http.post(shop.star, params).then((res) => {
+        http.post(shop.search, params).then((res) => {
             const { data, status, message } = res;
 
             const { list, pages } = data;
-  
             if (status != 'OK' && message != '') {
-                if(message.indexOf('无权限访问')>-1){
-                    Toast.info("请先登录", 3);
-                }else{
-                    Toast.info(message, 3);
-                }
-                
+                Toast.info(message, 3);
                 return;
             }
-            // console.log(list)
+           
             this.setState((preState) => {
                 return {
-                    records: [...preState[`records`], ...list]
+                    records: [...list]
                 }
-            }, () => {
-                // console.log(this.state)
             });
 
             //对应tab 页面配置更改
@@ -73,52 +67,39 @@ class BrandList extends React.Component {
 
 
         this.timeout = setTimeout(() => {
-            // console.log(scrollHeight, scrollTop, scrollHeight - scrollTop, clientHeight)
             //滑动到底部调接口 某些浏览器可能设置缩放 导致像素不是整数 + 1 防止这些误差
             if (scrollHeight - scrollTop <= clientHeight + 1) {
-                this.getRecord();
+                this.getRecord(this.id);
             }
             clearTimeout(this.timeout);
 
         }, 50)
-
     }
 
-    init() {
-        let { search = '' } = this.props.location;
-        let parseQueryString = function () {
-
-            var str = search;
-            var objURL = {};
-
-            str.replace(
-                new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-                function ($0, $1, $2, $3) {
-                    objURL[$1] = $3;
-                }
-            );
-            return objURL;
-        };
-        let params = parseQueryString();
-
-        this.getRecord();
-    }
-
-    render() {
-        const { records = [] } = this.state;
-        return <div className="brandlist star-wrap">
+    render(){
+        const {records=[]}=this.state;
+        return <div className="brandlist searchpage">
             <div className="navwrap">
-                <NavBar title='收藏'></NavBar>
+                <NavBar title='查找商品' showIcon={true}></NavBar>
             </div>
+            
             <div className="list-wrap">
+                <div className="input-wrap">
+                    <input placeholder="输入商品" ref={el=>this.inp=el}/>
+                    <span onClick={()=>{
+                        let value = this.inp.value;
+                        console.log('123')
+                        this.getRecord(value);
+                    }}>搜索</span>
+                </div>
                 <SearchList records={records} scrollEvent={this.handleScroll.bind(this)}></SearchList>
             </div>
         </div>
     }
 
-    componentDidMount() {
-        this.init();
-    }
+    componentDidMount(){
+       
+    }   
 }
 
 export default connect(
@@ -129,4 +110,4 @@ export default connect(
     {
 
     }
-)(BrandList)
+)(SearchPage)

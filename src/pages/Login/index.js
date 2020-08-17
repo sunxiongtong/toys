@@ -40,7 +40,7 @@ class Login extends React.Component {
                 if(status === 'ERROR'){
                     Toast.info(message,3);
                 }else{
-                    this.props.userInfoActions({ token: data.token })
+                    this.props.userInfoActions(data.token);
                     Toast.info('登录成功',1,()=>{
                         setCookie('token',data.token)
                         this.props.history.push('/');
@@ -94,6 +94,6 @@ export default connect(
         
     }),
     {
-        userInfoActions: userInfoActionsFromOtherFile.updateToken
+        userInfoActions: userInfoActionsFromOtherFile.updateToken,
     }
 )(Login)

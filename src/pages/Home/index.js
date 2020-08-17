@@ -8,7 +8,6 @@ import './index.scss'
 import SearchList from '@/components/SearchList/index';
 import Banner from '@/components/Banner/index';
 
-
 const tabs = [
     { title: <Badge >推荐专区</Badge> },
     { title: <Badge >上新专区</Badge> },
@@ -24,7 +23,7 @@ class Home extends React.Component {
             bannerList: []
         }
 
-        this.pageSize = 5;
+        this.pageSize = 8;
     }
 
     getRecord(type) {
@@ -136,8 +135,8 @@ class Home extends React.Component {
         const { configType = [], bannerList = [] } = this.state;
 
         return (
-            <div className="home">
-                <div onClick={() => { this.props.history.push('/login') }}>
+            <>
+                <div onClick={() => { this.props.history.push('/searchpage') }}>
                     <SearchBar placeholder="搜索商品" maxLength={8} disabled />
                 </div>
                 <Banner list={bannerList}></Banner>
@@ -157,7 +156,7 @@ class Home extends React.Component {
                         }
                     </Tabs>
                 </div>
-            </div>
+            </>
         )
     }
 
@@ -165,7 +164,6 @@ class Home extends React.Component {
         // this.props.userInfoActions({ token: '123456' })
 
         this.init();
-        console.log(this.props)
     }
 
 }

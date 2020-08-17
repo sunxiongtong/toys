@@ -17,15 +17,22 @@ const shop = {
     getLoad:`${domain}/api/product/load`,
     getSkuLoad:`${domain}/api/product/skuLoad`,
     getLoadInfo:`${domain}/api/saler/loadInfo`,
+    isFocus:`${domain}/api/focus/load`,
+    focusAdd:`${domain}/api/focus/add`,
+    focusRemove:`${domain}/api/focus/remove`,
+    star:`${domain}/api/focus/getProductList`,
+    search:`${domain}/api/product/getListByKey`,
 }
 const banner = {
     getBanner:`${domain}/api/banner/getList`,
+    getListBySaler:`${domain}/api/product/getListBySaler`
     // getBrand:`${domain}/api/banner/getList`
 }
 
 const user = {
     login:`${domain}/api/user/login`,
-    register:`${domain}/api/user/reg`
+    register:`${domain}/api/user/reg`,
+    get:`${domain}/api/user/get`,
 }
 export {
     shop,

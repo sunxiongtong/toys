@@ -13,3 +13,10 @@ export const updateToken = (data)=>{
         data
     }
 }
+
+export const updatePhone = (data)=>{
+    return {
+        type:actionsTypes.USERINFO_PHONE,
+        data
+    }
+}

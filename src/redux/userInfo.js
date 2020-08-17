@@ -11,8 +11,10 @@ function getCookie(name) {
 }
 
 let token = getCookie('token') || '';
+// console.log(getCookie('token'))
 const initState = {
-    token: token
+    token: token,
+    phone:'',
 };
 
 export default function userInfo(state = initState, action) {
@@ -22,6 +24,11 @@ export default function userInfo(state = initState, action) {
                 ...state,
                 token:action.data
             };
+        case actionTypes.USERINFO_PHONE:
+            return {
+                ...state,
+                phone:action.data
+            }
         default:
             return state;
     }
