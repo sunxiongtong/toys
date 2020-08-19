@@ -135,7 +135,7 @@ class Home extends React.Component {
         const { configType = [], bannerList = [] } = this.state;
 
         return (
-            <>
+            <div className="home">
                 <div onClick={() => { this.props.history.push('/searchpage') }}>
                     <SearchBar placeholder="搜索商品" maxLength={8} disabled />
                 </div>
@@ -156,7 +156,7 @@ class Home extends React.Component {
                         }
                     </Tabs>
                 </div>
-            </>
+            </div>
         )
     }
 

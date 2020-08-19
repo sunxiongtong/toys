@@ -12,6 +12,10 @@ html,body {
 }
 .App {
     height: 100%;
+    .cache-div {
+        height: 100%;
+        width: 100%;
+    }
 }
 body {
     background-color: rgb(245,245,249);

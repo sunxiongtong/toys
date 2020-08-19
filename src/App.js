@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router, Route } from 'react-router-dom';
+import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
 import './App.scss';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -30,15 +31,10 @@ class App extends React.Component {
             <Provider store={store}>
                 <div className="App">
                     <Router basename='/'>
-                        <Route path='/' exact >
-                            {props => {
-                                return (<div style={props.match ? null : { display: 'none' }} className="home">
-                                    <Home {...props} />
-                                </div>)
-                            }}
-                        </Route>
+                   
+                        <CacheRoute path='/' exact component={Home} className="cache-div"></CacheRoute>
                         <Route path='/my' component={My} exact></Route>
-                        <Route path='/brand' component={Brand} exact></Route>
+                        <CacheRoute path='/brand' component={Brand} exact className="cache-div"></CacheRoute>
                         <Route path='/brandlist' component={BrandList} exact></Route>
                         <Route path='/star' component={Star} exact></Route>
                         <Route path='/login' component={Login} exact></Route>
@@ -48,6 +44,7 @@ class App extends React.Component {
                         <Route path='/agreement' component={Agreement} exact></Route>
                         <Route path='/privacy' component={Privacy} exact></Route>
                         <MyTabBar></MyTabBar>
+                     
                     </Router>
 
                 </div>

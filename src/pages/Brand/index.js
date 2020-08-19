@@ -33,7 +33,7 @@ class Brand extends React.Component {
 
     render() {
         const {brandList = []} = this.props;
-        
+        console.log(brandList)
         return <div className="brand-wrap">
             <div className="navwrap">
                 <NavBar title='品牌'></NavBar>
