@@ -5,7 +5,7 @@ import http from '@/http.js';
 import { banner } from '@/urls.js'
 import { connect } from 'react-redux';
 import * as brandActionsFromOtherFile from '../../actions/brand.js'
-console.log(brandActionsFromOtherFile)
+
 class Brand extends React.Component {
     constructor(props){
         super(props);
@@ -18,7 +18,6 @@ class Brand extends React.Component {
             const {data} = res;
             const {list} = data;
 
-            // console.log(list)
             this.props.getBrandList(list);
         })
     }
@@ -33,7 +32,7 @@ class Brand extends React.Component {
 
     render() {
         const {brandList = []} = this.props;
-        console.log(brandList)
+        
         return <div className="brand-wrap">
             <div className="navwrap">
                 <NavBar title='品牌'></NavBar>

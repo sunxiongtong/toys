@@ -7,7 +7,7 @@ class Banner extends React.Component {
     super(props);
 
     this.state = {
-      imgHeight: 176,
+      imgHeight: 220,
     }
   }
 
@@ -16,8 +16,8 @@ class Banner extends React.Component {
   }
 
   render() {
-    const { list,imgHeight } = this.props;
-
+    const { list } = this.props;
+    const {imgHeight} = this.state;
     return (
       <WingBlank>
         <Carousel
@@ -35,11 +35,11 @@ class Banner extends React.Component {
               <img
                 // src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
                 src={banner.image}
-                style={{ width: '100%', verticalAlign: 'top' }}
+                style={{ width: '100%', verticalAlign: 'top',height:imgHeight }}
                 onLoad={() => {
                   // fire window resize event to change height
-                  window.dispatchEvent(new Event('resize'));
-                  this.setState({ imgHeight: 'auto' });
+                  // window.dispatchEvent(new Event('resize'));
+                  // this.setState({ imgHeight: 'auto' });
                 }}
               />
             </a>

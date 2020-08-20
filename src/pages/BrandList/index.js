@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { shop, banner } from '@/urls.js';
 import NavBar from '@/components/NavBar';
 import './index.scss';
+import { Toast } from 'antd-mobile';
 
 class BrandList extends React.Component {
     constructor(props){
@@ -14,7 +15,7 @@ class BrandList extends React.Component {
             records:[]
         };
 
-        this.pageSize = 21;
+        this.pageSize =21;
         this.pageObj = {
             page:1,
             totalPages:undefined
@@ -40,13 +41,16 @@ class BrandList extends React.Component {
                 Toast.info(message, 3);
                 return;
             }
-            // console.log(list)
+            
+            if(status === 'OK' && list.length === 0){
+                Toast.info('该品牌暂无商品', 1);
+                return ;
+            }
+
             this.setState((preState) => {
                 return {
                     records: [...preState[`records`], ...list]
                 }
-            }, () => {
-                // console.log(this.state)
             });
 
             //对应tab 页面配置更改
@@ -107,6 +111,7 @@ class BrandList extends React.Component {
 
     render(){
         const {records=[]}=this.state;
+        
         return <div className="brandlist">
             <div className="navwrap">
                 <NavBar title='品牌·SHOW' showIcon={true}></NavBar>

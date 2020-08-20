@@ -45,13 +45,11 @@ class BrandList extends React.Component {
                 
                 return;
             }
-            // console.log(list)
+           
             this.setState((preState) => {
                 return {
                     records: [...preState[`records`], ...list]
                 }
-            }, () => {
-                // console.log(this.state)
             });
 
             //对应tab 页面配置更改

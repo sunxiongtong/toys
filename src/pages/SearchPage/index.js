@@ -41,7 +41,12 @@ class SearchPage extends React.Component {
                 Toast.info(message, 3);
                 return;
             }
-           
+
+            if (status === 'OK' && list.length === 0) {
+                Toast.info('查找不到该商品！', 2);
+                return;
+            }
+
             this.setState((preState) => {
                 return {
                     records: [...list]
@@ -78,6 +83,7 @@ class SearchPage extends React.Component {
 
     render(){
         const {records=[]}=this.state;
+
         return <div className="brandlist searchpage">
             <div className="navwrap">
                 <NavBar title='查找商品' showIcon={true}></NavBar>
@@ -88,7 +94,6 @@ class SearchPage extends React.Component {
                     <input placeholder="输入商品" ref={el=>this.inp=el}/>
                     <span onClick={()=>{
                         let value = this.inp.value;
-                        console.log('123')
                         this.getRecord(value);
                     }}>搜索</span>
                 </div>

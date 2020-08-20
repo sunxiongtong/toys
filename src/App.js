@@ -19,8 +19,7 @@ import Agreement from './pages/Agreement';
 import 'antd-mobile/dist/antd-mobile.css';
 import MyTabBar from '@/pages/Tabbar';
 
-
-console.log(store.getState())
+// store.getState() 
 
 class App extends React.Component {
 
@@ -35,7 +34,7 @@ class App extends React.Component {
                         <CacheRoute path='/' exact component={Home} className="cache-div"></CacheRoute>
                         <Route path='/my' component={My} exact></Route>
                         <CacheRoute path='/brand' component={Brand} exact className="cache-div"></CacheRoute>
-                        <Route path='/brandlist' component={BrandList} exact></Route>
+                        <CacheRoute path='/brandlist' component={BrandList} exact></CacheRoute>
                         <Route path='/star' component={Star} exact></Route>
                         <Route path='/login' component={Login} exact></Route>
                         <Route path='/detail' component={Detail} exact></Route>

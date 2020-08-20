@@ -11,7 +11,7 @@ function getCookie(name) {
 }
 
 let token = getCookie('token') || '';
-// console.log(getCookie('token'))
+
 const initState = {
     token: token,
     phone:'',

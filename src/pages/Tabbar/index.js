@@ -47,7 +47,6 @@ class MyTabBar extends React.Component {
     }
 
     change() {
-        // console.log(this.props.history)
         this.props.history.listen((location) => {
             this.handleInit(location);
         })

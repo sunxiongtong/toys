@@ -29,8 +29,7 @@ class Home extends React.Component {
     getRecord(type) {
         let tag = this.state[`type${type}`].text;
         let pageObj = this[`pageObj${type}`];
-        // console.log(this,pageObj)
-        // console.log(pageObj.page, pageObj.totalPages,pageObj)
+        
         if (pageObj.totalPages && pageObj.page > pageObj.totalPages) return;
 
         let params = {
@@ -48,13 +47,11 @@ class Home extends React.Component {
                 Toast.info(message, 3);
                 return;
             }
-            // console.log(list)
+        
             this.setState((preState) => {
                 return {
                     [`records${type}`]: [...preState[`records${type}`], ...list]
                 }
-            }, () => {
-                // console.log(this.state)
             });
 
             //对应tab 页面配置更改
@@ -96,8 +93,20 @@ class Home extends React.Component {
         this.getRecord(index + 1);
     }
 
-    init() {
-        // 初始化分类
+    //初始化轮播图
+    getBannerList(){
+        http.post(banner.getBanner, { oToken: this.props.token, xtype: 2, status: 3, pagesize: 10, pageindex: 1 }).then((res) => {
+            const { data } = res;
+            const { list } = data;
+
+            this.setState({
+                bannerList: list
+            })
+        })
+    }
+
+    // 初始化分类
+    getTypes(){
         http.post(shop.getConfigClassify, { name: 'tags', oToken: this.props.token }).then((res) => {
             const { data } = res;
             const value = JSON.parse(data.value);
@@ -119,16 +128,18 @@ class Home extends React.Component {
 
             this.getRecord(1);
         })
+    }
 
-        //初始化轮播图
-        http.post(banner.getBanner, { oToken: this.props.token, xtype: 2, status: 3, pagesize: 10, pageindex: 1 }).then((res) => {
-            const { data } = res;
-            const { list } = data;
-
-            this.setState({
-                bannerList: list
-            })
+    init() {
+        this.props.history.listen((location) => {
+            if (location.pathname === '/') {
+                this.getBannerList();
+            }
         })
+
+        this.getBannerList();
+
+        this.getTypes();
     }
 
     render() {
@@ -139,7 +150,10 @@ class Home extends React.Component {
                 <div onClick={() => { this.props.history.push('/searchpage') }}>
                     <SearchBar placeholder="搜索商品" maxLength={8} disabled />
                 </div>
-                <Banner list={bannerList}></Banner>
+                <div style={{ width: '100%', height: 220 }}>
+                    <Banner list={bannerList}></Banner>
+                </div>
+
                 <div className='tab-wrap'>
                     <Tabs tabs={tabs}
                         initialPage={0}
