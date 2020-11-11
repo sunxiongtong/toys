@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import * as userInfoActionsFromOtherFile from '../../actions/userinfo.js';
 import http from '@/http.js';
 import { shop, banner } from '@/urls.js';
-import { Button, SearchBar, Tabs, Badge, Toast } from 'antd-mobile';
+import { Button, SearchBar, Tabs, Badge, Toast,tabPane } from 'antd-mobile';
 import './index.scss'
 import SearchList from '@/components/SearchList/index';
 import Banner from '@/components/Banner/index';
+import love from '@/assets/love.png';
 
 const tabs = [
     { title: <Badge >推荐专区</Badge> },
@@ -15,21 +16,49 @@ const tabs = [
     { title: <Badge >全部商品</Badge> },
 ];
 
+const NavBarDataJSON = [
+    { text: '推荐专区', className: "recommend" },
+    { text: '上新专区', className: "shangxin" },
+    { text: '版权品牌', className: "copyright" },
+    { text: '全部商品', className: "all" },
+]
+
+function ShoppingNavBar1(props) {
+    
+    
+}
+
+const ShoppingNavBar = React.forwardRef((props,ref)=>{
+    // console.log(ref)
+    // props.handleTabChange(index)
+    return <div className="navbar-wrap">
+    {NavBarDataJSON.map((item, index) => {
+        return <div key={item.className} className="navbar-box" onClick={() => { }}>
+            <div className={String(item.className) + " navbar-swrap"}>{item.text.slice(0, 2)}</div>
+            <div className="navbar-text">{item.text}</div>
+        </div>
+    })}
+</div>
+})
+
+
 class Home extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            bannerList: []
+            bannerList: [],
+            tabPage:0
         }
 
         this.pageSize = 8;
+        this.tabRef = React.createRef();
     }
 
     getRecord(type) {
         let tag = this.state[`type${type}`].text;
         let pageObj = this[`pageObj${type}`];
-        
+
         if (pageObj.totalPages && pageObj.page > pageObj.totalPages) return;
 
         let params = {
@@ -47,7 +76,7 @@ class Home extends React.Component {
                 Toast.info(message, 3);
                 return;
             }
-        
+
             this.setState((preState) => {
                 return {
                     [`records${type}`]: [...preState[`records${type}`], ...list]
@@ -85,16 +114,20 @@ class Home extends React.Component {
     }
 
     handleTabChange(index) {
-
+       
         if (this.state[`records${index + 1}`].length > 0) {
             return;
         }
+        console.log(index)
+        this.setState({
+            tabPage:index
+        })
 
         this.getRecord(index + 1);
     }
 
     //初始化轮播图
-    getBannerList(){
+    getBannerList() {
         http.post(banner.getBanner, { oToken: this.props.token, xtype: 2, status: 3, pagesize: 10, pageindex: 1 }).then((res) => {
             const { data } = res;
             const { list } = data;
@@ -106,7 +139,7 @@ class Home extends React.Component {
     }
 
     // 初始化分类
-    getTypes(){
+    getTypes() {
         http.post(shop.getConfigClassify, { name: 'tags', oToken: this.props.token }).then((res) => {
             const { data } = res;
             const value = JSON.parse(data.value);
@@ -147,15 +180,16 @@ class Home extends React.Component {
 
         return (
             <div className="home">
-                <div onClick={() => { this.props.history.push('/searchpage') }}>
+                <div onClick={() => { this.props.history.push('/searchpage') }} className="search-box">
                     <SearchBar placeholder="搜索商品" maxLength={8} disabled />
                 </div>
                 <div style={{ width: '100%', height: 220 }}>
                     <Banner list={bannerList}></Banner>
                 </div>
-
+                <ShoppingNavBar handleTabChange={this.handleTabChange.bind(this)} ref={this.tabRef}></ShoppingNavBar>
                 <div className='tab-wrap'>
-                    <Tabs tabs={tabs}
+
+                    {/* <Tabs tabs={tabs}
                         initialPage={0}
                         onChange={(tab, index) => { this.handleTabChange(index); }}
                     >
@@ -164,6 +198,24 @@ class Home extends React.Component {
                                 return (
                                     <div className="slide" key={config.name + config.text}>
                                         <SearchList records={this.state[`records${config.name}`]} type={config.name} scrollEvent={this.handleScroll.bind(this)}></SearchList>
+                                    </div>
+                                )
+                            })
+                        }
+                    </Tabs> */}
+                    <Tabs 
+                        tabs={tabs}
+                        initialPage={0}
+                        onChange={(tab, index) => { console.log(tab,index);this.handleTabChange(index); }}
+                        ref={(ref)=>{this.tabRef = ref;}}
+                        tabPage={this.state.tabPage}
+                    >
+                        {
+                            configType.length > 0 && configType.map((config) => {
+                                return (
+
+                                    <div className="slide" key={config.name + config.text}>
+                                        <IndexList records={this.state[`records${config.name}`]} type={config.name} scrollEvent={this.handleScroll.bind(this)}></IndexList>
                                     </div>
                                 )
                             })
@@ -180,6 +232,54 @@ class Home extends React.Component {
         this.init();
     }
 
+}
+
+function IndexList(props) {
+    const { scrollEvent, records = [], type } = props;
+
+    return <ul className="newlist" data-type={type} onScroll={scrollEvent}>
+        {
+            records.map((item, index) => {
+                return (
+                    <li
+                        className="newlist-li"
+                        key={item.productid + item.code + item.name + item.hot + index}
+                        data-productid={item.productid}
+                        data-salerid={item.salerid}
+                    >
+                        <div
+                            className="newlist-li-img"
+                            style={{ background: `url(${item.image}) no-repeat center` }}
+                        >
+                            <div className="newlist-li-shopcontent">
+                                {item.tags.split(',').map((tag) => {
+                                    let className = '';
+                                    if (tag.indexOf('推荐') > -1) {
+                                        className = 'tag recommend';
+                                    } else if (tag.indexOf('上新') > -1) {
+                                        className = 'tag shangxin';
+                                    } else if (tag.indexOf('版权') > -1) {
+                                        className = 'tag copyright';
+                                    } else {
+                                        className = 'tag all';
+                                    }
+                                    return <span key={item.productid + tag + item.name} className={className} style={{ display: className == 'tag all' ? 'none' : 'inline-block' }}>{tag.substr(0, 2)}</span>
+                                })}
+                            </div>
+                            <div className="name">
+                                {item.name}
+                            </div>
+                            <div className="hot">
+                                <img src={love}></img>
+                                <span>{item.hot}</span>
+                            </div>
+                        </div>
+
+                    </li>
+                )
+            })
+        }
+    </ul>
 }
 
 export default connect(
