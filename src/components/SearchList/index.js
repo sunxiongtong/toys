@@ -1,10 +1,10 @@
 import { ListView } from 'antd-mobile';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { withRouter } from "react-router-dom";
+import { withRouter} from "react-router-dom";
 import http from '@/http.js';
 import { shop, banner } from '@/urls.js';
-import { connect } from 'react-redux';
+import { connect  } from 'react-redux';
 class SearchList extends React.Component {
   constructor(props) {
     super(props);

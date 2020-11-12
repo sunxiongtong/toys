@@ -1,19 +1,41 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import { connect,useSelector } from 'react-redux';
+import { useHistory } from "react-router-dom";
 import * as userInfoActionsFromOtherFile from '../../actions/userinfo.js';
 import http from '@/http.js';
 import { shop, banner } from '@/urls.js';
-import { Button, SearchBar, Tabs, Badge, Toast,tabPane } from 'antd-mobile';
+import { Button, SearchBar, Tabs, Badge, Toast, tabPane } from 'antd-mobile';
 import './index.scss'
 import SearchList from '@/components/SearchList/index';
 import Banner from '@/components/Banner/index';
 import love from '@/assets/love.png';
 
 const tabs = [
-    { title: <Badge >推荐专区</Badge> },
-    { title: <Badge >上新专区</Badge> },
-    { title: <Badge >版权品牌</Badge> },
-    { title: <Badge >全部商品</Badge> },
+    {
+        title: <div className="navbar-box">
+            <div className={"recommend navbar-swrap"}>{"推荐"}</div>
+            <div className="navbar-text">{"推荐专区"}</div>
+        </div>
+    },
+    {
+        title: <div className="navbar-box">
+            <div className={"shangxin navbar-swrap"}>{"上新"}</div>
+            <div className="navbar-text">{"上新专区"}</div>
+        </div>
+    },
+    {
+        title: <div className="navbar-box">
+            <div className={"copyright navbar-swrap"}>{"版权"}</div>
+            <div className="navbar-text">{"版权品牌"}</div>
+        </div>
+    },
+    {
+        title: <div className="navbar-box">
+            <div className={"all navbar-swrap"}>{"全部"}</div>
+            <div className="navbar-text">{"全部商品"}</div>
+        </div>
+    },
 ];
 
 const NavBarDataJSON = [
@@ -23,22 +45,17 @@ const NavBarDataJSON = [
     { text: '全部商品', className: "all" },
 ]
 
-function ShoppingNavBar1(props) {
-    
-    
-}
-
-const ShoppingNavBar = React.forwardRef((props,ref)=>{
+const ShoppingNavBar = React.forwardRef((props, ref) => {
     // console.log(ref)
     // props.handleTabChange(index)
     return <div className="navbar-wrap">
-    {NavBarDataJSON.map((item, index) => {
-        return <div key={item.className} className="navbar-box" onClick={() => { }}>
-            <div className={String(item.className) + " navbar-swrap"}>{item.text.slice(0, 2)}</div>
-            <div className="navbar-text">{item.text}</div>
-        </div>
-    })}
-</div>
+        {NavBarDataJSON.map((item, index) => {
+            return <div key={item.className} className="navbar-box" onClick={() => { }}>
+                <div className={String(item.className) + " navbar-swrap"}>{item.text.slice(0, 2)}</div>
+                <div className="navbar-text">{item.text}</div>
+            </div>
+        })}
+    </div>
 })
 
 
@@ -48,11 +65,13 @@ class Home extends React.Component {
 
         this.state = {
             bannerList: [],
-            tabPage:0
+            tabPage: 0,
+            display: 'block'
         }
 
         this.pageSize = 8;
         this.tabRef = React.createRef();
+        this.tabWrapRef = React.createRef();
     }
 
     getRecord(type) {
@@ -102,9 +121,9 @@ class Home extends React.Component {
 
 
         this.timeout = setTimeout(() => {
-            // console.log(scrollHeight, scrollTop, scrollHeight - scrollTop, clientHeight)
+            console.log(scrollHeight, scrollTop, scrollHeight - scrollTop, clientHeight)
             //滑动到底部调接口 某些浏览器可能设置缩放 导致像素不是整数 + 1 防止这些误差
-            if (scrollHeight - scrollTop <= clientHeight + 1) {
+            if (Math.floor(scrollHeight - scrollTop) <= clientHeight + 1) {
                 this.getRecord(type);
             }
             clearTimeout(this.timeout);
@@ -114,13 +133,13 @@ class Home extends React.Component {
     }
 
     handleTabChange(index) {
-       
+
         if (this.state[`records${index + 1}`].length > 0) {
             return;
         }
-        console.log(index)
+
         this.setState({
-            tabPage:index
+            tabPage: index
         })
 
         this.getRecord(index + 1);
@@ -179,35 +198,31 @@ class Home extends React.Component {
         const { configType = [], bannerList = [] } = this.state;
 
         return (
-            <div className="home">
-                <div onClick={() => { this.props.history.push('/searchpage') }} className="search-box">
+            <div className="home" onScroll={(e) => {
+                if (this.tabWrapRef.getBoundingClientRect().top <= 10) {
+                    this.setState({
+                        display: 'none'
+                    })
+                } else {
+                    this.setState({
+                        display: 'block'
+                    })
+                }
+            }}>
+                <div onClick={() => { this.props.history.push('/searchpage') }} className="search-box" style={{ display: this.state.display }}>
                     <SearchBar placeholder="搜索商品" maxLength={8} disabled />
                 </div>
                 <div style={{ width: '100%', height: 220 }}>
                     <Banner list={bannerList}></Banner>
                 </div>
-                <ShoppingNavBar handleTabChange={this.handleTabChange.bind(this)} ref={this.tabRef}></ShoppingNavBar>
-                <div className='tab-wrap'>
-
-                    {/* <Tabs tabs={tabs}
-                        initialPage={0}
-                        onChange={(tab, index) => { this.handleTabChange(index); }}
-                    >
-                        {
-                            configType.length > 0 && configType.map((config) => {
-                                return (
-                                    <div className="slide" key={config.name + config.text}>
-                                        <SearchList records={this.state[`records${config.name}`]} type={config.name} scrollEvent={this.handleScroll.bind(this)}></SearchList>
-                                    </div>
-                                )
-                            })
-                        }
-                    </Tabs> */}
-                    <Tabs 
+                {/* <ShoppingNavBar handleTabChange={this.handleTabChange.bind(this)} ref={this.tabRef}></ShoppingNavBar> */}
+                <div className='tab-wrap' ref={(ref) => { this.tabWrapRef = ref; }}>
+                    <Tabs
                         tabs={tabs}
+                        swipeable={false}
                         initialPage={0}
-                        onChange={(tab, index) => { console.log(tab,index);this.handleTabChange(index); }}
-                        ref={(ref)=>{this.tabRef = ref;}}
+                        onChange={(tab, index) => { console.log(tab, index); this.handleTabChange(index); }}
+                        ref={(ref) => { this.tabRef = ref; }}
                         tabPage={this.state.tabPage}
                     >
                         {
@@ -235,7 +250,21 @@ class Home extends React.Component {
 }
 
 function IndexList(props) {
-    const { scrollEvent, records = [], type } = props;
+    const { scrollEvent, records = [], type, } = props;
+    const list = useRef();
+    const token = useSelector(state=>{return state.userinfo.token;})
+    const history = useHistory();
+    
+    const handleClick = (e) => {
+        if (!token) {
+            history.push('./login')
+            return;
+        }
+        const { productid, salerid } = e.currentTarget.dataset;
+
+        history.push(`/detail?productid=${productid}&salerid=${salerid}`);
+
+    }
 
     return <ul className="newlist" data-type={type} onScroll={scrollEvent}>
         {
@@ -246,6 +275,7 @@ function IndexList(props) {
                         key={item.productid + item.code + item.name + item.hot + index}
                         data-productid={item.productid}
                         data-salerid={item.salerid}
+                        onClick={handleClick}
                     >
                         <div
                             className="newlist-li-img"

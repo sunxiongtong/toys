@@ -13,10 +13,57 @@
         height: 44px;
         z-index: 999;
     }
+    .tab-wrap {
+        * {
+            border-bottom: none!important;
+        }
+        .am-tabs-default-bar-underline {
+            display: none;
+        }
+        .navbar-box {
+            height: 100%;
+            line-height: 0;
+        }
+        .navbar-swrap {
+            color: #fff;
+            font-size: 0.3rem;
+            text-align: center;
+            letter-spacing: 3px;
+            padding-left: 2px;
+            font-weight: bold;
+            width: 1rem;
+            height: 1rem;
+            line-height: 1rem;
+            border-radius: 0.4rem;
+        }
+        .navbar-text {
+            margin-top: 0.2rem;
+            padding-left: 2px;
+            color: rgb(89, 90, 92);
+            font-size: 0.24rem;
+            font-weight: bold;
+            height: 14px;
+        }
+    }
     .am-tabs-pane-wrap {
         height: calc(100% - 43.5px) !important;
     }
-    
+    .am-tabs-default-bar-tab {
+        height: 85px;
+        
+        background-color: rgb(245,245,249)!important;
+    }
+    .am-tabs-default-bar-top, .am-tabs-default-bar-bottom {
+        background-color: rgb(245,245,249)!important;
+        padding: 0 5%;
+        margin:0 auto;
+         * {
+            border-bottom:none!important;
+         }
+         .am-tabs-default-bar-tab-active {
+             border-bottom:none;
+         }
+    }
     .slider-frame {
         height: 220px;
     }
@@ -38,9 +85,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100%;
         background: #fff;
-
+        height: 100%;
         .list {
             overflow: scroll;
             height: 100%;
@@ -160,12 +206,14 @@
     justify-content: space-between;
     background: rgba(0, 0, 0, 0.8);
     flex-wrap: wrap;
-    overflow: hidden;
-    margin-top: 3rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
     box-sizing: border-box;
     .newlist-li {
         padding-top: 0.05rem;
         padding: .05rem;
+
         .newlist-li-img {
             width: 3.5rem;
             height: 3.5rem;
