@@ -1,33 +1,60 @@
 import { ListView } from 'antd-mobile';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import http from '@/http.js';
 import { shop, banner } from '@/urls.js';
-import { connect  } from 'react-redux';
+import { connect } from 'react-redux';
 class SearchList extends React.Component {
   constructor(props) {
     super(props);
+
+    this.listRef = React.createRef();
   }
 
   handleClick = (e) => {
-    const {token} = this.props;
-    
-    if(!token){
-      this.props.history.push('./login')
-      return ;
-    }
-    const {productid,salerid} = e.currentTarget.dataset;
+    const { token } = this.props;
 
-    this.props.history.push(`/detail?productid=${productid}&salerid=${salerid}`);
- 
+    if (!token) {
+      this.props.history.push('./login')
+      return;
+    }
+    const { productid, salerid } = e.currentTarget.dataset;
+
+    this.props.history.push(`/detail?productid=${productid}&salerid=${salerid}&scrollTop=${this.listRef.current.scrollTop}&key=${this.props.keys}`);
+
+  }
+
+  componentDidMount() {
+    
+  }
+
+  componentDidUpdate(preProps){
+    
+    if(this.props.records && preProps.records.length !=this.props.records && window.sessionStorage.getItem('scrollTop')){
+      console.log(this.props.records,preProps)
+      setTimeout(() => {
+        let scrollTop = window.sessionStorage.getItem('scrollTop');
+        let scrollBol = window.sessionStorage.getItem('scrollBol');
+  
+        if (scrollBol) {
+          console.log(scrollTop)
+  
+          this.listRef.current.scrollTop = +scrollTop;
+          console.log(this.listRef.current)
+  
+          window.sessionStorage.removeItem('scrollTop');
+          window.sessionStorage.setItem('scrollBol', false);
+        }
+      }, 200)
+    }
   }
 
   render() {
     const { records = [], scrollEvent, type } = this.props;
 
     return (
-      <ul className="list" data-type={type} onScroll={scrollEvent}>
+      <ul className="list" data-type={type} onScroll={scrollEvent} ref={this.listRef}>
         {
           records.map((item, index) => {
             return (
@@ -72,10 +99,10 @@ class SearchList extends React.Component {
   }
 }
 export default withRouter(connect(
-    state => ({
-        token: state.userinfo.token,
-    }),
-    {
-        // userInfoActions: userInfoActionsFromOtherFile.updateToken
-    }
+  state => ({
+    token: state.userinfo.token,
+  }),
+  {
+    // userInfoActions: userInfoActionsFromOtherFile.updateToken
+  }
 )(SearchList));

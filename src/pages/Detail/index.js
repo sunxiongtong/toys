@@ -13,19 +13,46 @@ class Detail extends React.Component {
         this.state = {
             imageList: [],
             productObj: {},
-            star:false,
-            productID:''
+            salerObj: {},
+            star: false,
+            productID: ''
         }
     }
+    componentDidUpdate() {
+        if (!window.sessionStorage.getItem('scrollTop')) {
+            let { search = '' } = this.props.location;
+            let parseQueryString = function () {
 
-    changeStar(){
+                var str = search;
+                var objURL = {};
+
+                str.replace(
+                    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+                    function ($0, $1, $2, $3) {
+                        objURL[$1] = $3;
+                    }
+                );
+                return objURL;
+            };
+            let params = parseQueryString();
+            let scrollTop = params.scrollTop;
+            let key = params.key;
+
+            window.sessionStorage.setItem('scrollTop', scrollTop);
+            window.sessionStorage.setItem('scrollBol', true);
+            window.sessionStorage.setItem('key', key);
+        }
+
+    }
+
+    changeStar() {
         this.setState({
-            star:!this.state.star
+            star: !this.state.star
         })
     }
 
     render() {
-        const { imageList = [], productObj = {},star=false,productID } = this.state;
+        const { imageList = [], productObj = {}, salerObj = {}, star = false, productID } = this.state;
 
         return <div className="detail-wrap">
             <div className="navwrap">
@@ -78,50 +105,46 @@ class Detail extends React.Component {
                     <div>
                         <div className="line">
                             <span className="left">单位名称</span>
-                            <span className="right">{productObj.name}</span>
+                            <span className="right">{salerObj.name}</span>
                         </div>
                         <div className="line">
-                            <span className="left">负责人</span>
-                            <span className="right">{productObj.principal}</span>
-                        </div>
-                        <div className="line">
-                            <span className="left">联系电话</span>
-                            <span className="right">{productObj.phone}</span>
-                        </div>
-                        <div className="line">
-                            <span className="left">QQ</span>
-                            <span className="right">{productObj.qq}</span>
-                        </div>
-                        <div className="line">
-                            <span className="left">公司网址</span>
-                            <span className="right">{productObj.website}</span>
-                        </div>
-                        <div className="line">
-                            <span className="left">单位地址</span>
-                            <span className="right">{productObj.address}</span>
+                            <span className="left">联系人</span>
+                            <span className="right">{salerObj.principal}</span>
                         </div>
                         <div className="line">
                             <span className="left">手机</span>
-                            <span className="right">{productObj.cellphone}</span>
+                            <span className="right">{salerObj.cellphone}</span>
+                        </div>
+                        <div className="line">
+                            <span className="left">联系电话</span>
+                            <span className="right">{salerObj.phone}</span>
+                        </div>
+                        <div className="line">
+                            <span className="left">微信</span>
+                            <span className="right">{salerObj.qq}</span>
+                        </div>
+                        <div className="line">
+                            <span className="left">email</span>
+                            <span className="right">{salerObj.mail}</span>
+                        </div>
+                        <div className="line">
+                            <span className="left">公司网址</span>
+                            <span className="right">{salerObj.website}</span>
+                        </div>
+                        <div className="line">
+                            <span className="left">单位地址</span>
+                            <span className="right">{salerObj.address}</span>
                         </div>
                         {/* <div className="line">
                             <span className="left">微信</span>
                             <span className="right">{productObj.name}</span>
                         </div> */}
-                        <div className="line">
-                            <span className="left">email</span>
-                            <span className="right">{productObj.mail}</span>
-                        </div>
-                        <div className="line">
-                            <span className="left">联系人</span>
-                            <span className="right">{productObj.principal}</span>
-                        </div>
                     </div>
                 </div>
                 <div className="content-wrap">
                     <div className="title">—— 图片展示 ——</div>
                 </div>
-                <div className="brand-content">
+                <div className="brand-detail-content">
                     {
                         imageList.length > 0 && imageList.map((item, index) => {
                             return (
@@ -161,7 +184,7 @@ class Detail extends React.Component {
         let paramsObj = { id: params['productid'], salerid: params['salerid'], oToken: this.props.token };
 
         this.setState({
-            productID:params['productid']
+            productID: params['productid']
         });
 
         http.post(shop.getFileLoad, paramsObj).then((res) => {
@@ -181,13 +204,13 @@ class Detail extends React.Component {
                 return { productObj: { ...preState.productObj, ...data } }
             })
         })
-        
-        http.post(shop.isFocus,{productid:params['productid'],oToken:this.props.token}).then((res)=>{
+
+        http.post(shop.isFocus, { productid: params['productid'], oToken: this.props.token }).then((res) => {
             const { data } = res;
 
-            if(data !== null){
+            if (data !== null) {
                 this.setState({
-                    star:true
+                    star: true
                 })
             }
         })
@@ -203,7 +226,7 @@ class Detail extends React.Component {
             const { data } = res;
 
             this.setState((preState) => {
-                return { productObj: { ...preState.productObj, ...data } }
+                return { salerObj: { ...preState.salerObj, ...data } }
             })
         })
     }

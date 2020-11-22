@@ -2,7 +2,8 @@
   "name": "toys",
   "sideEffects": [
     "@babel/polyfill",
-    "*.css"
+    "*.css",
+    "*.scss"
   ],
   "version": "1.0.0",
   "description": "",

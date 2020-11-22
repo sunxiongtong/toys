@@ -6,26 +6,33 @@ import { shop, banner } from '@/urls.js';
 import NavBar from '@/components/NavBar';
 import './index.scss';
 import { Button, SearchBar, Tabs, Badge, Toast } from 'antd-mobile';
-
 class SearchPage extends React.Component {
     constructor(props){
         super(props);
 
         this.state = {
-            records:[]
+            records:[],
+            key:'',
+            total:0
         };
 
-        this.pageSize = 100;
+        this.pageSize = 1000;
         this.pageObj = {
             page:1,
             totalPages:undefined
         }
+        this.scrollTop = 0;
+        
     }
 
     getRecord(key){
         let pageObj = this.pageObj || {};
+        
+        if(this.state.records.length !== 0 && this.state.records.length === this.state.total){
+            return ;
+        }
         // if (pageObj.totalPages && pageObj.page > pageObj.totalPages) return;
-
+        
         let params = {
             oToken: this.props.token,
             key,
@@ -49,7 +56,8 @@ class SearchPage extends React.Component {
 
             this.setState((preState) => {
                 return {
-                    records: [...list]
+                    records: [...preState.records,...list],
+                    total:data.total
                 }
             });
 
@@ -65,6 +73,8 @@ class SearchPage extends React.Component {
 
         const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
 
+        this.scrollTop = scrollTop;
+       
         // 滚动触发频率太高，设置节流
         if (this.timeout) {
             clearTimeout(this.timeout);
@@ -74,7 +84,7 @@ class SearchPage extends React.Component {
         this.timeout = setTimeout(() => {
             //滑动到底部调接口 某些浏览器可能设置缩放 导致像素不是整数 + 1 防止这些误差
             if (scrollHeight - scrollTop <= clientHeight + 1) {
-                this.getRecord(this.id);
+                this.getRecord(this.state.key);
             }
             clearTimeout(this.timeout);
 
@@ -91,20 +101,35 @@ class SearchPage extends React.Component {
             
             <div className="list-wrap">
                 <div className="input-wrap">
-                    <input placeholder="输入商品" ref={el=>this.inp=el}/>
+                    <input placeholder="输入商品" ref={el=>this.inp=el} value={this.state.key} onChange={(e)=>{
+                        this.setState({
+                            key:e.target.value
+                        })
+                    }}/>
                     <span onClick={()=>{
                         let value = this.inp.value;
+                      
                         this.getRecord(value);
                     }}>搜索</span>
                 </div>
-                <SearchList records={records} scrollEvent={this.handleScroll.bind(this)}></SearchList>
+                <SearchList records={records} scrollEvent={this.handleScroll.bind(this)} keys={this.state.key}></SearchList>
             </div>
         </div>
     }
 
     componentDidMount(){
-       
+        let key = window.sessionStorage.getItem('key');
+        console.log('w',key)
+        if(key){
+         this.getRecord(key)
+         this.setState({
+             key:key
+         })
+         
+          window.sessionStorage.removeItem('key');
+        }
     }   
+    
 }
 
 export default connect(

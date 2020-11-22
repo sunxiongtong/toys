@@ -10,7 +10,7 @@ const Item = List.Item;
 
 function setCookie(name, value) { 
     var exp = new Date(); 
-    exp.setTime(exp.getTime() + 60 * 60 * 1000); 
+    exp.setTime(exp.getTime() + 3600 * 1000 * 24 * 30); 
     document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString() + ";path=/"; 
 }
 
@@ -38,11 +38,11 @@ class My extends React.Component {
                         this.props.history.push('/agreement');
                     }}>用户协议</Item>
                 </List>
-                <List className="my-list">
+                {/* <List className="my-list">
                     <Item  arrow="horizontal" onClick={()=>{
                         this.props.history.push('/privacy');
                     }}>隐私政策</Item>
-                </List>
+                </List> */}
             </div>
             <div>
                 {isLogin && <div className="login-btn" onClick={()=>{

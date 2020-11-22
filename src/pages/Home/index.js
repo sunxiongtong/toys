@@ -121,7 +121,7 @@ class Home extends React.Component {
 
 
         this.timeout = setTimeout(() => {
-            console.log(scrollHeight, scrollTop, scrollHeight - scrollTop, clientHeight)
+            // console.log(scrollHeight, scrollTop, scrollHeight - scrollTop, clientHeight)
             //滑动到底部调接口 某些浏览器可能设置缩放 导致像素不是整数 + 1 防止这些误差
             if (Math.floor(scrollHeight - scrollTop) <= clientHeight + 1) {
                 this.getRecord(type);
@@ -147,7 +147,7 @@ class Home extends React.Component {
 
     //初始化轮播图
     getBannerList() {
-        http.post(banner.getBanner, { oToken: this.props.token, xtype: 2, status: 3, pagesize: 10, pageindex: 1 }).then((res) => {
+        http.post(banner.getBanner, { oToken: this.props.token, xtype: 3, status: 3, pagesize: 10, pageindex: 1 }).then((res) => {
             const { data } = res;
             const { list } = data;
 
@@ -210,9 +210,10 @@ class Home extends React.Component {
                 }
             }}>
                 <div onClick={() => { this.props.history.push('/searchpage') }} className="search-box" style={{ display: this.state.display }}>
-                    <SearchBar placeholder="搜索商品" maxLength={8} disabled />
+                    {/* <div className="search-text">五亭购</div> */}
+                    <SearchBar placeholder="五亭购" maxLength={8} disabled />
                 </div>
-                <div style={{ width: '100%', height: 220 }}>
+                <div style={{ width: '100%' }}>
                     <Banner list={bannerList}></Banner>
                 </div>
                 {/* <ShoppingNavBar handleTabChange={this.handleTabChange.bind(this)} ref={this.tabRef}></ShoppingNavBar> */}
@@ -278,8 +279,9 @@ function IndexList(props) {
                         onClick={handleClick}
                     >
                         <div
-                            className="newlist-li-img"
-                            style={{ background: `url(${item.image}) no-repeat center` }}
+                            className="newlist-li-img" 
+                            data-img={item.image}
+                            style={{ background: `url(${decodeURIComponent(encodeURIComponent(item.image.split('?')[0]))}) no-repeat center` }}
                         >
                             <div className="newlist-li-shopcontent">
                                 {item.tags.split(',').map((tag) => {
@@ -297,7 +299,7 @@ function IndexList(props) {
                                 })}
                             </div>
                             <div className="name">
-                                {item.name}
+                                {item.status == 4?('下架'+item.name):item.name}
                             </div>
                             <div className="hot">
                                 <img src={love}></img>

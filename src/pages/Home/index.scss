@@ -7,6 +7,12 @@
 .home {
     height: 100%;
     overflow: auto;
+    .search-text {
+        background:#efeff4;
+        font-size: .3rem;
+        color: #111;
+        padding: 8px 8px 0;
+    }
     .search-box {
         position: fixed;
         width: 100%;
@@ -71,8 +77,6 @@
         box-sizing: border-box;
         img {
             box-sizing: border-box;
-            padding: 10px;
-            border-radius: 20px;
         }
     }
     .am-search-input .am-search-synthetic-ph {
@@ -215,13 +219,13 @@
         padding: .05rem;
 
         .newlist-li-img {
-            width: 3.5rem;
-            height: 3.5rem;
-            margin-bottom: 0.2rem;
+            width: 3.65rem;
+            height: 3.65rem;
+            margin-bottom: 0.15rem;
             position: relative;
             box-sizing: border-box;
             border-radius: 0.15rem;
-            
+            background-size:100% 100%!important;
         }
         .hot {
             position: absolute;
@@ -257,7 +261,7 @@
     .newlist-li-img:after {
         content: "";
         display: block;
-        height: 0.2rem;
+        height: 0.15rem;
         background: #fff;
         width: 200%;
         position: absolute;
@@ -266,15 +270,19 @@
     }
     .newlist-li-shopcontent {
         color: #fff;
+        position: absolute;
+        top: 0;
+        font-size: 0;
         span {
             display: inline-block;
-            width: 0.5rem;
-            height: 1rem;
-            padding-top: 0.1rem;
+            width: 0.4rem;
+            height: 0.7rem;
+
             margin-left: 0.1rem;
             font-size: 0.3rem;
             text-align: center;
             position: relative;
+            top: 0;
         }
         span:before,
         span:after {
@@ -315,4 +323,23 @@
             border-left: 0.25rem solid transparent;
         }
     }
+}
+
+.am-wingblank.am-wingblank-lg {
+    margin:0!important;
+    padding: 0!important;
+    img,a {
+        width: 100vw!important;
+        margin:0!important;
+        padding: 0!important;
+    }
+}
+.am-search {
+    background-color: transparent!important;
+    input {
+        border-radius: 22px;
+    }
+}
+.am-search-input {
+    border-radius:22px!important;
 }

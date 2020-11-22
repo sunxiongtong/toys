@@ -7,7 +7,7 @@ switch (process.env.env) {
     case 'dev':
         domain = 'http://dolltoys.exfox.com.cn:15000';
     default:
-        domain = 'http://dolltoys.exfox.com.cn:15000';
+        domain = 'http://service.dolltoys.cn';
 }
 
 const shop = {

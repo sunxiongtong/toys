@@ -7,6 +7,14 @@
             padding: .1rem;
         }
     }
+    .brand-detail-content {
+        width: 100%;
+        overflow: hidden;
+        img {
+            object-fit: contain;
+            width: 100%;
+        }
+    }
     .detail-content {
         font-size: .34rem;
         span {

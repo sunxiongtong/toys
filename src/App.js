@@ -53,13 +53,18 @@ class App extends React.Component {
 
 }
 
+const root = document.getElementById('root');
 ReactDOM.render(
     // <React.StrictMode>
     <App store={store} />
     // </React.StrictMode>
     ,
-    document.getElementById('root')
+    root
 );
 
+console.log(root._reactRootContainer)
+console.log(root.firstChild)
+console.log(root.current)
+console.log(root.context)
 
 export default App;
