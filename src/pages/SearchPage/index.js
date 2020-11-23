@@ -119,7 +119,6 @@ class SearchPage extends React.Component {
 
     componentDidMount(){
         let key = window.sessionStorage.getItem('key');
-        console.log('w',key)
         if(key){
          this.getRecord(key)
          this.setState({

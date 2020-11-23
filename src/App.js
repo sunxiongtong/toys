@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route,hashHistory } from 'react-router-dom';
 import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
 import './App.scss';
 import { Provider } from 'react-redux';
@@ -29,7 +29,7 @@ class App extends React.Component {
         return (
             <Provider store={store}>
                 <div className="App">
-                    <Router basename='/'>
+                    <Router basename='/' history={hashHistory}>
                    
                         <CacheRoute path='/' exact component={Home} className="cache-div"></CacheRoute>
                         <Route path='/my' component={My} exact></Route>
@@ -61,10 +61,5 @@ ReactDOM.render(
     ,
     root
 );
-
-console.log(root._reactRootContainer)
-console.log(root.firstChild)
-console.log(root.current)
-console.log(root.context)
 
 export default App;

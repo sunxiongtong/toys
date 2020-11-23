@@ -32,16 +32,15 @@ class SearchList extends React.Component {
   componentDidUpdate(preProps){
     
     if(this.props.records && preProps.records.length !=this.props.records && window.sessionStorage.getItem('scrollTop')){
-      console.log(this.props.records,preProps)
+
       setTimeout(() => {
         let scrollTop = window.sessionStorage.getItem('scrollTop');
         let scrollBol = window.sessionStorage.getItem('scrollBol');
   
         if (scrollBol) {
-          console.log(scrollTop)
+         
   
           this.listRef.current.scrollTop = +scrollTop;
-          console.log(this.listRef.current)
   
           window.sessionStorage.removeItem('scrollTop');
           window.sessionStorage.setItem('scrollBol', false);
