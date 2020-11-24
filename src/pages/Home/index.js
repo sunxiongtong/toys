@@ -244,7 +244,7 @@ class Home extends React.Component {
 
     componentDidMount() {
         // this.props.userInfoActions({ token: '123456' })
-
+        
         this.init();
     }
 

@@ -4,6 +4,9 @@ import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import http from '@/http.js';
 import { shop, banner } from '@/urls.js';
+// import creatHistory from 'history/createBrowserHistory';
+ 
+const history = require("history").createBrowserHistory();
 class MyNavbar extends React.Component {
     constructor(props){
         super(props);
@@ -18,7 +21,12 @@ class MyNavbar extends React.Component {
             <NavBar
                 mode="light"
                 icon={showIcon && <Icon type="left" />}
-                onLeftClick={() => this.props.history.goBack()}
+                onLeftClick={(e) => {
+                    setTimeout(()=>{
+                        history.goBack();
+                    },100)
+                    e.preventDefault();
+                }}
                 rightContent={
                     [showRight?(<span style={{fontSize:'.28rem'}} onClick={()=>{
                         let token = this.props.token;

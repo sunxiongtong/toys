@@ -1,4 +1,4 @@
-import React from 'react' ;
+import React from 'react';
 import SearchList from '@/components/SearchList/index';
 import http from '@/http.js';
 import { connect } from 'react-redux';
@@ -6,33 +6,42 @@ import { shop, banner } from '@/urls.js';
 import NavBar from '@/components/NavBar';
 import './index.scss';
 import { Button, SearchBar, Tabs, Badge, Toast } from 'antd-mobile';
+let loading = false;
 class SearchPage extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
-            records:[],
-            key:'',
-            total:0
+            records: [],
+            key: '',
+            total: 0
         };
 
         this.pageSize = 1000;
         this.pageObj = {
-            page:1,
-            totalPages:undefined
+            page: 1,
+            totalPages: 0
         }
         this.scrollTop = 0;
-        
+
     }
 
-    getRecord(key){
-        let pageObj = this.pageObj || {};
-        
-        if(this.state.records.length !== 0 && this.state.records.length === this.state.total){
-            return ;
+    getRecord(key) {
+        if (!key) {
+            return;
         }
+        if (loading) {
+            return;
+        }
+        loading = true;
+        let pageObj = this.pageObj || {};
+
+        if (this.state.records.length !== 0 && this.state.records.length === this.state.total) {
+            return;
+        }
+
         // if (pageObj.totalPages && pageObj.page > pageObj.totalPages) return;
-        
+
         let params = {
             oToken: this.props.token,
             key,
@@ -56,11 +65,11 @@ class SearchPage extends React.Component {
 
             this.setState((preState) => {
                 return {
-                    records: [...preState.records,...list],
-                    total:data.total
+                    records: [...preState.records, ...list],
+                    total: data.total
                 }
             });
-
+            loading = false;
             //对应tab 页面配置更改
             pageObj.page++;
             pageObj.totalPages = pages;
@@ -74,7 +83,7 @@ class SearchPage extends React.Component {
         const { scrollHeight, scrollTop, clientHeight } = e.currentTarget;
 
         this.scrollTop = scrollTop;
-       
+
         // 滚动触发频率太高，设置节流
         if (this.timeout) {
             clearTimeout(this.timeout);
@@ -91,25 +100,37 @@ class SearchPage extends React.Component {
         }, 50)
     }
 
-    render(){
-        const {records=[]}=this.state;
+    render() {
+        const { records = [] } = this.state;
 
         return <div className="brandlist searchpage">
             <div className="navwrap">
                 <NavBar title='查找商品' showIcon={true}></NavBar>
             </div>
-            
+
             <div className="list-wrap">
                 <div className="input-wrap">
-                    <input placeholder="输入商品" ref={el=>this.inp=el} value={this.state.key} onChange={(e)=>{
+                    <input placeholder="输入商品" ref={el => this.inp = el} value={this.state.key} onChange={(e) => {
+                        let val = e.target.value;
                         this.setState({
-                            key:e.target.value
+                            key: val
                         })
-                    }}/>
-                    <span onClick={()=>{
+                    }} />
+                    <span onClick={() => {
                         let value = this.inp.value;
-                      
-                        this.getRecord(value);
+
+                        if (!value) {
+                            Toast.info('请输入需要查找的商品', 2);
+                            return;
+                        }
+
+                        this.setState({
+                            records: [],
+                            total: 0
+                        }, () => {
+                            this.getRecord(value);
+                        })
+
                     }}>搜索</span>
                 </div>
                 <SearchList records={records} scrollEvent={this.handleScroll.bind(this)} keys={this.state.key}></SearchList>
@@ -117,18 +138,19 @@ class SearchPage extends React.Component {
         </div>
     }
 
-    componentDidMount(){
-        let key = window.sessionStorage.getItem('key');
-        if(key){
-         this.getRecord(key)
-         this.setState({
-             key:key
-         })
-         
-          window.sessionStorage.removeItem('key');
+    componentDidMount() {
+        let key = window.sessionStorage.getItem('key') || "";
+        console.log(123)
+        if (key && key != "undefined") {
+            this.getRecord(key)
+            this.setState({
+                key: key
+            }, () => {
+                window.sessionStorage.removeItem('key');
+            })
         }
-    }   
-    
+    }
+
 }
 
 export default connect(

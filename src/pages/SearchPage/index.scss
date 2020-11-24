@@ -14,6 +14,7 @@
         top: 0;
         left: 0;
         width: 100%;
+        touch-action: none;
         input {
             height: .56rem;
             width: 79%;
@@ -23,6 +24,7 @@
             vertical-align: top;
             font-size: .34rem;
             text-indent: .4rem;
+            touch-action: none;
         }
         span {
             margin-left: 4%;
@@ -34,6 +36,7 @@
             font-size: .34rem;
             text-align: center;
             color:#108ee9;
+            touch-action: none;
         }
     }
     .list {

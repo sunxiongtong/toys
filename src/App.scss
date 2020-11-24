@@ -2,10 +2,11 @@
 * {
     margin: 0;
     padding: 0;
-    
+    -webkit-overflow-scrolling: touch;
 }
+
 html,body {
-    height: 100%;
+    height: 100vh;
 }
 #root {
     height: 100%;

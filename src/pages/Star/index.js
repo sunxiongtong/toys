@@ -38,9 +38,9 @@ class BrandList extends React.Component {
   
             if (status != 'OK' && message != '') {
                 if(message.indexOf('无权限访问')>-1){
-                    Toast.info("请先登录", 3);
+                    Toast.info("请先登录", 1);
                 }else{
-                    Toast.info(message, 3);
+                    Toast.info(message, 1);
                 }
                 
                 return;
