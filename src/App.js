@@ -16,6 +16,7 @@ import Register from './pages/Register';
 import SearchPage from './pages/SearchPage';
 import Privacy from './pages/Privacy';
 import Agreement from './pages/Agreement';
+import GoBack from './pages/Back';
 import 'antd-mobile/dist/antd-mobile.css';
 import MyTabBar from '@/pages/Tabbar';
 
@@ -30,7 +31,6 @@ class App extends React.Component {
             <Provider store={store}>
                 <div className="App">
                     <Router basename='/'>
-                   
                         <CacheRoute path='/' exact component={Home} className="cache-div"></CacheRoute>
                         <Route path='/my' component={My} exact></Route>
                         <CacheRoute path='/brand' component={Brand} exact className="cache-div"></CacheRoute>
@@ -42,6 +42,7 @@ class App extends React.Component {
                         <Route path='/searchpage' component={SearchPage} exact></Route>
                         <Route path='/agreement' component={Agreement} exact></Route>
                         <Route path='/privacy' component={Privacy} exact></Route>
+                        {/* <Route path='/goback' component={GoBack} exact></Route> */}
                         <MyTabBar></MyTabBar>
                      
                     </Router>
@@ -61,5 +62,8 @@ ReactDOM.render(
     ,
     root
 );
+// let a = `<a href="#" class="back" onclick="javascript: window.history.go(-1);return false;">悬浮测试回退</a>`;
 
+// let back = document.querySelector("#back");
+// back.innerHTML = a;
 export default App;

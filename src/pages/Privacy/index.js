@@ -14,6 +14,7 @@ class Privacy extends React.Component {
             <div className="navwrap">
                 <NavBar title='隐私政策' showIcon={true}></NavBar>
             </div>
+            <div className="nav-head"></div>
             <div className="content">
                 <p>
                     1、为了便于您了解您在使用我们的服务时，我们需要收集的信息类型与用途，我们将结合具体服务向您逐一说明。

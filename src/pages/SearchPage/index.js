@@ -14,7 +14,7 @@ class SearchPage extends React.Component {
         this.state = {
             records: [],
             key: '',
-            total: 0
+            total: 0,
         };
 
         this.pageSize = 1000;
@@ -27,20 +27,23 @@ class SearchPage extends React.Component {
     }
 
     getRecord(key) {
+        console.log(!key,loading,this.state.records.length !== 0 && this.state.records.length === this.state.total)
         if (!key) {
             return;
         }
         if (loading) {
             return;
         }
-        loading = true;
         let pageObj = this.pageObj || {};
+        // console.log(pageObj.totalPages, pageObj.page, pageObj.totalPages && pageObj.page > pageObj.totalPages)
+        // if (pageObj.totalPages && pageObj.page > pageObj.totalPages) return;
 
         if (this.state.records.length !== 0 && this.state.records.length === this.state.total) {
             return;
         }
 
-        // if (pageObj.totalPages && pageObj.page > pageObj.totalPages) return;
+        loading = true;
+
 
         let params = {
             oToken: this.props.token,
@@ -53,6 +56,7 @@ class SearchPage extends React.Component {
             const { data, status, message } = res;
 
             const { list, pages } = data;
+            loading = false;
             if (status != 'OK' && message != '') {
                 Toast.info(message, 3);
                 return;
@@ -68,11 +72,16 @@ class SearchPage extends React.Component {
                     records: [...preState.records, ...list],
                     total: data.total
                 }
+            }, () => {
+                console.log('更新完成', this.state.records)
             });
-            loading = false;
+            
             //对应tab 页面配置更改
             pageObj.page++;
             pageObj.totalPages = pages;
+        }).catch(err => {
+            Toast.info('请求失败', 2);
+            loading = false;
         })
 
     }
@@ -107,7 +116,7 @@ class SearchPage extends React.Component {
             <div className="navwrap">
                 <NavBar title='查找商品' showIcon={true}></NavBar>
             </div>
-
+            <div className="nav-head"></div>
             <div className="list-wrap">
                 <div className="input-wrap">
                     <input placeholder="输入商品" ref={el => this.inp = el} value={this.state.key} onChange={(e) => {
@@ -126,10 +135,14 @@ class SearchPage extends React.Component {
 
                         this.setState({
                             records: [],
-                            total: 0
+                            total: 0,
+                            preValue: value
                         }, () => {
+                           
                             this.getRecord(value);
                         })
+
+
 
                     }}>搜索</span>
                 </div>
@@ -140,8 +153,9 @@ class SearchPage extends React.Component {
 
     componentDidMount() {
         let key = window.sessionStorage.getItem('key') || "";
-        console.log(123)
+
         if (key && key != "undefined") {
+            key = decodeURI(key)
             this.getRecord(key)
             this.setState({
                 key: key
@@ -151,6 +165,9 @@ class SearchPage extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+        console.log(loading, this.state.key)
+    }
 }
 
 export default connect(

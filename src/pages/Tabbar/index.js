@@ -86,7 +86,7 @@ class MyTabBar extends React.Component {
     }
     render() {
         return (
-            <div style={this.state.fullScreen ? { position: 'fixed', height: '50px', width: '100%', bottom: -1 } : { height: 50 }}>
+            <div style={this.state.fullScreen ? { position: 'fixed', height: '50px', width: '100%', bottom:0,zIndex:999999 } : { height: 50 }}>
                 <TabBar
                     unselectedTintColor="#949494"
                     tintColor="#33A3F4"

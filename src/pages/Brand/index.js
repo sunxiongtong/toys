@@ -37,6 +37,7 @@ class Brand extends React.Component {
             <div className="navwrap">
                 <NavBar title='品牌'></NavBar>
             </div>
+            <div className="nav-head"></div>
             <div className="navbody">
                 <div className="brand-content">
                     {
@@ -50,6 +51,9 @@ class Brand extends React.Component {
                     }
                 </div>
             </div>
+            {/* <div onClick={()=>{
+                this.props.history.push('/goback')
+            }}>跳转测试</div> */}
         </div>
     }
 

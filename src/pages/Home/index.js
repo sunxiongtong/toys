@@ -244,6 +244,20 @@ class Home extends React.Component {
 
     componentDidMount() {
         // this.props.userInfoActions({ token: '123456' })
+        // Toast.info(window.screen.height,3)// 667
+        // setTimeout(()=>{
+        //     Toast.info('bodyclientHeight'+document.body.clientHeight, 3);// 647
+        // },4000)
+        // setTimeout(()=>{
+        //     Toast.info('bodyscrollHeight'+document.body.scrollHeight, 3);// 647
+        // },7000)
+        // setTimeout(()=>{
+        //     Toast.info('windowH'+window.innerHeight, 3);// 603
+        // },10000)
+        
+        
+        // let body = document.body;
+        // body.style.height = window.innerHeight - 50 + 'px';
         
         this.init();
     }

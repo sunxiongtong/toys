@@ -1,0 +1,28 @@
+.self-nav {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    height: 45px;
+    line-height: 45px;
+    background: #fff;
+    
+    .left {
+        width: 20%;
+        position: relative;
+        img {
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            top: 50%;
+            margin-top: -8px;
+        }
+    }
+    .title {
+        font-size: 18px;
+    }
+    .right {
+        width: 20%;
+        font-size: 0.28rem;
+        color: #108ee9;
+    }
+}

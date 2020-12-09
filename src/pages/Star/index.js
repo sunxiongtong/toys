@@ -108,6 +108,7 @@ class BrandList extends React.Component {
             <div className="navwrap">
                 <NavBar title='收藏'></NavBar>
             </div>
+            <div className="nav-head"></div>
             <div className="list-wrap">
                 <SearchList records={records} scrollEvent={this.handleScroll.bind(this)}></SearchList>
             </div>

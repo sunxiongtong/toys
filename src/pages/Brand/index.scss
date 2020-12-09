@@ -5,8 +5,12 @@
     z-index: 999;
     width: 100%;
     touch-action: none;
+    transform: translateZ(0);
 }
-
+.nav-head {
+    height: 45px;
+    display: none;
+}
 .navbody {
     height: calc(100% - 50px - 45px);
     position: absolute;

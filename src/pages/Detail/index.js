@@ -58,6 +58,7 @@ class Detail extends React.Component {
             <div className="navwrap">
                 <NavBar title='商品详情' showIcon={true} star={star} changeStar={this.changeStar.bind(this)} showRight={true} productID={productID}></NavBar>
             </div>
+            <div className="nav-head"></div>
             <div className="navbody detail-content" style={{ height: 'calc(100% - 45px)', background: '#fff' }}>
                 <div className="Specifications content-wrap">
                     <div className="shop-top">

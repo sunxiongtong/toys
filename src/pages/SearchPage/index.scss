@@ -2,8 +2,9 @@
     height: 100%;
     .list-wrap {
         width: 100%;
-        position: relative;
+        position: absolute;
         height: calc(100% - 45px);
+        transform: translateZ(0);
     }
     .input-wrap {
         background-color:#efeff4;

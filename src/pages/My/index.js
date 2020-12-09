@@ -26,7 +26,7 @@ class My extends React.Component {
 
     render() {
         const { phone,isLogin } = this.state;
-
+        console.log(isLogin)
         return <div className="my-wrap">
             <div className="banner">
                 <img src={toybg}></img>
@@ -61,10 +61,12 @@ class My extends React.Component {
 
     componentDidMount() {
         let token = this.props.token;
+        
         if (token) {
             http.post(user.get, { oToken: token }).then((res) => {
                 const { data } = res;
                 const { cellphone } = data;
+                
                 if (cellphone) {
                     this.setState({
                         phone: cellphone.substr(0, 3) + '******' + cellphone.substr(7),

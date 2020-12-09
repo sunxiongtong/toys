@@ -1,4 +1,4 @@
-// * { touch-action: none; }
+
 * {
     margin: 0;
     padding: 0;
@@ -6,10 +6,22 @@
 }
 
 html,body {
-    height: 100vh;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: fixed;
 }
 #root {
     height: 100%;
+}
+#back {
+    .back {
+        position: fixed;
+        bottom: 100px;
+        right: 0;
+        background: pink;
+    }
 }
 .App {
     height: 100%;

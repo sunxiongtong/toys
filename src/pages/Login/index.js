@@ -55,6 +55,7 @@ class Login extends React.Component {
             <div className="navwrap">
                 <NavBar title='登录' showIcon={true}></NavBar>
             </div>
+            <div className="nav-head"></div>
             <div className="navbody" style={{ background: '#fff', height: 'calc(100% - 50px)' }}>
                 <div className="login-body">
                     <List>
